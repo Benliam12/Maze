@@ -1,0 +1,7 @@
+name : Maze
+version : 1.0
+main : ca.benliam12.maze.Maze
+author : Benliam12
+commands :
+  maze :
+   description : Main command
