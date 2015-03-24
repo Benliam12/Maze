@@ -24,7 +24,7 @@ public class Utils
 			double z = config.getDouble(path + ".z");
 			float pitch = (float)config.getDouble(path + ".pitch");
 			float yaw = (float)config.getDouble(path + ".yaw");
-			return new Location(w,x,y,z,pitch,yaw);
+			return new Location(w,x,y,z,yaw,pitch);
 		}
 		return null;
 	}

@@ -34,7 +34,7 @@ public class Game
 	
 	private String getPlayerAmount()
 	{
-		return ChatColor.GRAY  + "[" + ChatColor.RED + this.players.size() + "/" + this.maxPlayer + ChatColor.GRAY + "]";
+		return ChatColor.GRAY  + "[" + ChatColor.RED + this.players.size() + ChatColor.GRAY + "/" + ChatColor.RED + this.maxPlayer + ChatColor.GRAY + "]";
 	}
 	
 	private void addPlayer(Player p)
@@ -57,6 +57,14 @@ public class Game
 			if(this.players.size() == 0)
 			{
 				this.restart();
+			}
+		} 
+		else if(this.getState().equalsIgnoreCase("lobby"))
+		{
+			if(this.players.size() == 0)
+			{
+				this.countdown.setTimer(30);
+				this.countdown.setCanStart(false);
 			}
 		}
 	}
@@ -89,7 +97,7 @@ public class Game
 		}
 		
 		if(this.config.get("infos.maxPlayer") != null){
-			this.maxPlayer = this.config.getInt("infos.maxPlayers");
+			this.maxPlayer = this.config.getInt("infos.maxPlayer");
 		}
 		else 
 		{
@@ -99,7 +107,7 @@ public class Game
 		
 		if(this.config.get("infos.minPlayer") != null)
 		{
-			this.minPlayer = this.config.getInt("infos.minPlayers");
+			this.minPlayer = this.config.getInt("infos.minPlayer");
 		}
 		else 
 		{
@@ -110,6 +118,9 @@ public class Game
 		if(this.config.get("infos.name") != null)
 		{
 			this.name = this.config.getString("infos.name");
+		}
+		else {
+			this.state = "off";
 		}
 	}
 	
@@ -123,10 +134,14 @@ public class Game
 		this.id = id;
 		if(this.config != null)
 		{
+			this.setState("lobby");
 			this.load();
 			this.countdown = new CountDown(this.id, 30);
 			this.thread = new Thread(this.countdown);
 			this.thread.start();
+		} else {
+			this.state = "off";
+			Maze.log.info("Empty config for game : "+ id);
 		}
 	}
 	
@@ -142,7 +157,8 @@ public class Game
 	}
 	
 	public void restart()
-	{
+	{	
+		this.state = "lobby";
 		for(Player player : this.players)
 		{
 			this.leavePlayer(player);
@@ -156,6 +172,7 @@ public class Game
 	public void start()
 	{
 		this.startTime = Math.round(System.currentTimeMillis() / 1000);
+		this.state = "inprocess";
 		for(Player player : this.players)
 		{
 			player.teleport(this.spawn);
@@ -173,8 +190,10 @@ public class Game
 	 * Player interactions
 	 */
 	public void leavePlayer(Player p)
-	{
+	{	
+		p.sendMessage(Maze.prefix + ChatColor.YELLOW + "You left the game !");
 		this.removePlayer(p);
+		this.broadcast(Maze.prefix + ChatColor.YELLOW + p.getName() + " has left the game " + this.getPlayerAmount());
 	}
 	
 	public void joinPlayer(Player p)
@@ -188,7 +207,7 @@ public class Game
 		if(!this.isPlayer(p)){
 			this.addPlayer(p);
 			p.teleport(this.waitroom);
-			this.broadcast(Maze.prefix + ChatColor.YELLOW + p.getName() + " has join the game + " + this.getPlayerAmount());
+			this.broadcast(Maze.prefix + ChatColor.YELLOW + p.getName() + " has join the game " + this.getPlayerAmount());
 			if(this.canStart())
 			{
 				this.countdown.setCanStart(true);

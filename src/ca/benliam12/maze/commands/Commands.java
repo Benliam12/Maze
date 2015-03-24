@@ -26,13 +26,20 @@ public class Commands implements CommandExecutor
 		{
 			if(args.length == 1)
 			{
-				if(args[0].equalsIgnoreCase("quit"))
+				// Quit game command
+				if(args[0].equalsIgnoreCase("quit") || args[0].equalsIgnoreCase("leave"))
 				{
 					gm.removePlayer(player);
 				} 
+				// Create command
 				else if(args[0].equalsIgnoreCase("create"))
 				{
 					gm.createGame(player,player.getLocation());
+				} 
+				// List game command
+				else if(args[0].equalsIgnoreCase("list"))
+				{
+					gm.getGames(player);
 				}
 				else 
 				{
@@ -41,6 +48,7 @@ public class Commands implements CommandExecutor
 			} 
 			else if(args.length == 2)
 			{
+				// Join command
 				if(args[0].equalsIgnoreCase("join"))
 				{
 					try{
@@ -50,12 +58,15 @@ public class Commands implements CommandExecutor
 					catch(Exception ex)
 					{
 						player.sendMessage(Maze.prefix + ChatColor.RED + "Invalid ID");
+						ex.printStackTrace();
 					}
 				} 
+				// Create command
 				else if(args[0].equalsIgnoreCase("create"))
 				{
 					gm.createGame(player,player.getLocation(),args[1]);
 				}
+				// Delete Command
 				else if(args[0].equalsIgnoreCase("delete"))
 				{
 					try{

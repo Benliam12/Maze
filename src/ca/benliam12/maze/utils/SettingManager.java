@@ -177,6 +177,7 @@ public class SettingManager
 			try
 			{
 				this.getFile(name).delete();
+				this.removeConfig(name);
 			}
 			catch (Exception ex)
 			{

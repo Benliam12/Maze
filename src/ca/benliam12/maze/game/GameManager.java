@@ -54,8 +54,8 @@ public class GameManager
 					try
 					{
 						int GameID = Integer.parseInt(string);
-						this.games.add(new Game(GameID));
 						sm.addConfig("Arena_" + GameID, "plugins/Maze/arenas");
+						this.games.add(new Game(GameID));
 					} catch(Exception ex){
 						Maze.log.info("Could load config with name : " + string);
 					}
@@ -108,6 +108,7 @@ public class GameManager
 		game.setMinPlayer(1);
 		game.setSpawn(spawn);
 		game.setWaitRoom(spawn);
+		game.restart();
 		this.addGame(game);
 		player.sendMessage(Maze.prefix + ChatColor.GREEN + "Game created ! (Id : " + id + ")");
 	}
@@ -128,7 +129,7 @@ public class GameManager
 			} 
 			else
 			{
-				player.sendMessage(Maze.prefix + ChatColor.RED + " This game does not exists !");
+				player.sendMessage(Maze.prefix + ChatColor.RED + "This game does not exists !");
 			}
 		}
 	}
@@ -172,6 +173,33 @@ public class GameManager
 			}
 		}
 		return null;
+	}
+	
+	public void getGames(Player p)
+	{	
+		if(this.games.size() == 0)
+		{
+			p.sendMessage("No game avaliable");
+		}
+		for(Game game : this.games)
+		{
+			String state = ChatColor.RED + "" + ChatColor.BOLD + "[Error]";
+			if(game.getState() != null){
+				if(game.getState().equalsIgnoreCase("lobby"))
+				{
+					state = ChatColor.GREEN + "" + ChatColor.BOLD + "[Waitting]";
+				}
+				else if(game.getState().equalsIgnoreCase("off"))
+				{
+					state = ChatColor.RED + "" + ChatColor.BOLD + "[OFF]";
+				} 
+				else if(game.getState().equalsIgnoreCase("inprocess"))
+				{
+					state = ChatColor.RED + "" + ChatColor.BOLD + "[In Process]";
+				}
+			}
+			p.sendMessage("#" + game.getID() + " - " + game.getName() + " " + state);
+		}
 	}
 	
 	public boolean isGame(Game game)
