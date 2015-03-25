@@ -21,6 +21,7 @@ public class Game
 	private Location waitroom;
 	private String state;
 	private String name;
+	private boolean isToggled;
 	private FileConfiguration config;
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private SettingManager sm = SettingManager.getInstance();
@@ -121,7 +122,18 @@ public class Game
 		}
 		else {
 			this.state = "off";
+			return;
 		}
+		
+		if(this.config.get("infos.istoggled") != null)
+		{
+			this.isToggled = this.config.getBoolean("infos.istoggled");
+		}
+		else
+		{
+			this.isToggled = false;
+		}
+		
 	}
 	
 	/*
@@ -274,6 +286,11 @@ public class Game
 		return false;
 	}
 	
+	public boolean isToggled()
+	{
+		return this.isToggled;
+	}
+	
 	public ArrayList<Player> getPlayer()
 	{
 		return this.players;
@@ -281,6 +298,10 @@ public class Game
 	
 	public String getState()
 	{
+		if(isToggled)
+		{
+			return "off";
+		}
 		return this.state;
 	}
 	
@@ -291,6 +312,20 @@ public class Game
 	/*
 	 * Setters
 	 */
+	
+	public void toggle()
+	{
+		if(this.isToggled)
+		{
+			this.isToggled = false;
+		} 
+		else
+		{
+			this.isToggled = true;
+		}
+		this.config.set("infos.istoggled", this.isToggled);
+		sm.saveConfig("Arena_" + this.id, this.config);
+	}
 	
 	public void setState(String state)
 	{

@@ -78,10 +78,70 @@ public class Commands implements CommandExecutor
 						player.sendMessage(Maze.prefix + ChatColor.RED + "Invalid ID");
 					}
 				}
+				else if(args[0].equalsIgnoreCase("toggle"))
+				{
+					try{
+						int GameID = Integer.parseInt(args[1]);
+						gm.getGame(GameID).toggle();
+						if(gm.getGame(GameID).isToggled())
+						{
+							player.sendMessage(Maze.prefix + ChatColor.YELLOW + "Toggled to :" + ChatColor.GREEN + " true");
+						}
+						else
+						{
+							player.sendMessage(Maze.prefix + ChatColor.YELLOW + "Toggled to :" + ChatColor.RED + " false");	
+						}
+					}
+					catch(Exception ex)
+					{
+						player.sendMessage(Maze.prefix + ChatColor.RED + "Invalid ID");
+					}	
+				}
 				else
 				{
 					player.sendMessage(ChatColor.RED + "Usage : /maze <create/delete/join/quit> {args}");
 				}
+			}
+			else if(args.length == 3)
+			{
+				if(args[0].equalsIgnoreCase("setminplayer"))
+				{
+					try{
+						int GameID = Integer.parseInt(args[1]);
+						int minPlayer = Integer.parseInt(args[2]);
+						gm.getGame(GameID).setMinPlayer(minPlayer);
+						player.sendMessage(Maze.prefix + ChatColor.YELLOW + "Min player is now : " + ChatColor.GOLD + minPlayer);
+					}
+					catch(Exception ex)
+					{
+						player.sendMessage(Maze.prefix + ChatColor.RED + "Invalid ID");
+					}
+				}
+				else if(args[0].equalsIgnoreCase("setmaxplayer"))
+				{
+					try{
+						int GameID = Integer.parseInt(args[1]);
+						int maxPlayer = Integer.parseInt(args[2]);
+						gm.getGame(GameID).setMaxPlayer(maxPlayer);
+						player.sendMessage(Maze.prefix + ChatColor.YELLOW + "Max player is now : " + ChatColor.GOLD + maxPlayer);
+					}
+					catch(Exception ex)
+					{
+						player.sendMessage(Maze.prefix + ChatColor.RED + "Invalid ID");
+					}
+				}
+				else if(args[0].equalsIgnoreCase("setname"))
+				{
+					try{
+						int GameID = Integer.parseInt(args[1]);
+						gm.getGame(GameID).setName(args[2]);
+						player.sendMessage(Maze.prefix + ChatColor.YELLOW + "Name is now : " + ChatColor.GOLD + args[2]);
+					}
+					catch(Exception ex)
+					{
+						player.sendMessage(Maze.prefix + ChatColor.RED + "Invalid ID");
+					}
+				} 
 			}
 			else
 			{

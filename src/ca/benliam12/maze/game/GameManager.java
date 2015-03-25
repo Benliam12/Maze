@@ -41,6 +41,17 @@ public class GameManager
 		this.loadGames();
 	}
 	
+	public void stop()
+	{
+		for(Game game : this.games)
+		{
+			for(Player player : game.getPlayer())
+			{
+				game.leavePlayer(player);
+			}
+		}
+	}
+	
 	public void loadGames()
 	{
 		if(sm.countFile("plugins/Maze/arenas") != 0)

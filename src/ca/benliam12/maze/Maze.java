@@ -50,6 +50,7 @@ public class Maze extends JavaPlugin
 	
 	public void onDisable()
 	{
+		GameManager.getInstance().stop();
 		SettingManager.getInstance().clear();
 	}
 }
