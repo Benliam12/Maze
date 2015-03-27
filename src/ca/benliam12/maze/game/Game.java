@@ -164,7 +164,7 @@ public class Game
 			Maze.log.info("Empty config for game : "+ id);
 		}
 		int[] i = {1,2,3,4,5,10,15,20,30};
-		this.countdown = new CountDown(this.id, 30, i);
+		this.countdown = new CountDown(this, 30, i);
 		this.thread = new Thread(this.countdown);
 		this.thread.start();
 	}
@@ -176,8 +176,8 @@ public class Game
 			player.sendMessage(Maze.prefix + ChatColor.RED + "You game was stopped !");
 			Maze.getHub().toHub(player);
 		}
-		this.countdown = null;
-		this.thread = null;
+		this.countdown.stopCountDown();
+		this.thread.interrupt();
 	}
 	
 	public void restart()
@@ -187,9 +187,7 @@ public class Game
 		{
 			this.leavePlayer(player);
 		}
-		this.countdown.setCanStart(false);
-		this.countdown.setTimer(30);
-		this.countdown.setID(this.id);
+		this.countdown.restartCountDown(this);
 		this.load();
 	}
 	

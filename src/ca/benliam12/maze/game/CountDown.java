@@ -6,13 +6,13 @@ import org.bukkit.ChatColor;
 
 import ca.benliam12.maze.Maze;
 
-public class CountDown implements Runnable
+public class CountDown extends Thread
 {
-	private int id;
+	private Game game;
 	private int time;
 	private ArrayList<Integer> wait = new ArrayList<>();
 	private boolean started = false;
-	private GameManager gm = GameManager.getInstance();
+	private boolean running = true;
 	
 	/**
 	 * Constructor
@@ -20,9 +20,9 @@ public class CountDown implements Runnable
 	 * @param ID Game ID
 	 * @param time Duration of the timer in SECONDS
 	 */
-	public CountDown(int ID, int time, int[] wait)
+	public CountDown(Game game, int time, int[] wait)
 	{
-		this.id = ID;
+		this.game = game;
 		this.time = time;
 		for(Integer integer : wait)
 		{
@@ -35,9 +35,9 @@ public class CountDown implements Runnable
 		this.time = time;
 	}
 	
-	public void setID(int id)
+	public void setGame(Game game)
 	{
-		this.id = id;
+		this.game = game;
 	}
 	
 	public void setCanStart(boolean canstart)
@@ -45,25 +45,42 @@ public class CountDown implements Runnable
 		this.started = canstart;
 	}
 	
+	public void stopCountDown()
+	{
+		this.running = false;
+	}
+	
+	public void startCountDown()
+	{
+		this.running = true;
+	}
+	
+	public void restartCountDown(Game game)
+	{
+		this.running = true;
+		this.time = 30;
+		this.game = game;
+	}
+	
 	@Override
 	public void run()
 	{
-		while(true)
+		while(this.running)
 		{
-			if(gm.getGame(this.id) != null)
+			if(this.game != null)
 			{
-				if(gm.getGame(this.id).canStart() && gm.getGame(this.id).getState().equalsIgnoreCase("lobby") && this.started)
+				if(this.game.canStart() && this.game.getState().equalsIgnoreCase("lobby") && this.started)
 				{
 					if(this.time == 0)
 					{
-						gm.getGame(this.id).broadcast(Maze.prefix + ChatColor.GREEN + "Game has started !");
-						gm.getGame(this.id).start();
+						this.game.broadcast(Maze.prefix + ChatColor.GREEN + "Game has started !");
+						this.game.start();
 					}
 					else 
 					{
 						if(this.wait.contains(this.time))
 						{
-							gm.getGame(this.id).broadcast(Maze.prefix + ChatColor.GREEN + "Game start in : " + this.time + " seconds");
+							this.game.broadcast(Maze.prefix + ChatColor.GREEN + "Game start in : " + this.time + " seconds");
 						}
 						
 						this.time--;	
@@ -74,7 +91,7 @@ public class CountDown implements Runnable
 					}
 					catch (Exception ex)
 					{
-					
+						this.stopCountDown();
 					}
 				}	
 			}

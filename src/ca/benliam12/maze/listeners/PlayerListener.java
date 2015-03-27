@@ -14,6 +14,7 @@ import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.ItemStack;
 
 import ca.benliam12.maze.Maze;
 import ca.benliam12.maze.game.Game;
@@ -108,6 +109,23 @@ public class PlayerListener implements Listener{
 		if(e.getAction() == Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.RIGHT_CLICK_AIR)
 		{
 			Block block = e.getClickedBlock();
+			
+			ItemStack inHand = player.getItemInHand();
+			
+			if(inHand == null) return;
+			
+			if(player.getItemInHand().getType() == Material.WOODEN_DOOR)
+			{
+				if(player.getItemInHand().getItemMeta().getDisplayName() != null) return;
+				if(player.getItemInHand().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.GOLD + "Exit"))
+				{
+					gm.removePlayer(player);
+					return;
+				}
+			}
+			
+			if(block == null) return;
+			
 			if(block.getType() == Material.SIGN || block.getType() == Material.WALL_SIGN)
 			{
 				if(signm.getSign(block.getLocation()) != null)
@@ -116,14 +134,7 @@ public class PlayerListener implements Listener{
 					signm.updateSign(block.getLocation());
 				}
 			} 
-			else if(player.getItemInHand().getType() == Material.WOODEN_DOOR)
-			{
-				if(player.getItemInHand().getItemMeta().getDisplayName() != null) return;
-				if(player.getItemInHand().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.GOLD + "Exit"))
-				{
-					gm.removePlayer(player);
-				}
-			}
+			
 		}
 	}
 	
