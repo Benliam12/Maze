@@ -41,6 +41,14 @@ public class Commands implements CommandExecutor
 				{
 					gm.getGames(player);
 				}
+				else if(args[0].equalsIgnoreCase("start"))
+				{
+					if(gm.getGame(player) != null)
+					{
+						gm.getGame(player).broadcast(Maze.prefix + ChatColor.GREEN + "Game has started !");
+						gm.getGame(player).start();
+					}
+				}
 				else 
 				{
 					player.sendMessage(ChatColor.RED + "Usage : /maze <create/delete/join/quit> {args}");
@@ -76,7 +84,32 @@ public class Commands implements CommandExecutor
 					catch(Exception ex)
 					{
 						player.sendMessage(Maze.prefix + ChatColor.RED + "Invalid ID");
+						ex.printStackTrace();
 					}
+				}
+				else if(args[0].equalsIgnoreCase("setwaitroom"))
+				{
+					try{
+						int GameID = Integer.parseInt(args[1]);
+						gm.getGame(GameID).setWaitRoom(player.getLocation());
+						player.sendMessage(Maze.prefix + ChatColor.GREEN + "Wait room set !");
+					}
+					catch(Exception ex)
+					{
+						player.sendMessage(Maze.prefix + ChatColor.RED + "Invalid ID");
+					}	
+				}
+				else if(args[0].equalsIgnoreCase("setspawn"))
+				{
+					try{
+						int GameID = Integer.parseInt(args[1]);
+						gm.getGame(GameID).setSpawn(player.getLocation());
+						player.sendMessage(Maze.prefix + ChatColor.GREEN + "Spawn set !");
+					}
+					catch(Exception ex)
+					{
+						player.sendMessage(Maze.prefix + ChatColor.RED + "Invalid ID");
+					}	
 				}
 				else if(args[0].equalsIgnoreCase("toggle"))
 				{

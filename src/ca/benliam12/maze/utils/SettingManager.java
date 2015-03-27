@@ -83,6 +83,7 @@ public class SettingManager
 	public void setup()
 	{
 		createDirectory("plugins/Maze/arenas");
+		createDirectory("plugins/Maze/signs");
 	}
 	/*
 	 * Configuration interactions

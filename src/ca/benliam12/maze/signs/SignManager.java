@@ -4,15 +4,39 @@ import java.io.File;
 import java.util.ArrayList;
 
 import org.bukkit.Location;
+import org.bukkit.configuration.file.FileConfiguration;
 
 import ca.benliam12.maze.Maze;
 import ca.benliam12.maze.utils.SettingManager;
+import ca.benliam12.maze.utils.Utils;
 
 public class SignManager 
 {
 	private SettingManager sm = SettingManager.getInstance();
 	private ArrayList<Signs> signs = new ArrayList<>();
 	private static SignManager instance = new SignManager();
+	
+	private int nextInt()
+	{
+		int id = 0;
+		while(sm.isFile("Signs_" + id + ".yml", "plugins/Maze/signs"))
+		{
+			id++;
+		}
+		return id;
+	}
+	
+	private Signs getSignByID(int id)
+	{
+		for(Signs signs : this.signs)
+		{
+			if(signs.getID() == id)
+			{
+				return signs;
+			}
+		}
+		return null;
+	}
 	
 	public static SignManager getInstance()
 	{
@@ -33,7 +57,9 @@ public class SignManager
 					{
 						int SignID = Integer.parseInt(string);
 						sm.addConfig("Signs_" + SignID, "plugins/Maze/signs");
-						this.signs.add(new Signs(SignID));
+						Signs signs = new Signs(SignID);
+						this.signs.add(signs);
+						signs.update();
 					} catch(Exception ex){
 						Maze.log.info("Could load config with name : " + string);
 					}
@@ -52,7 +78,24 @@ public class SignManager
 	
 	public void updateSign(int id)
 	{
-		this.getSign(id).update();
+		for(Signs s : this.signs)
+		{
+			if(s.getGameID() == id)
+			{
+				s.update();	
+			}
+		}
+	}
+	
+	public void updateSign(Location loc)
+	{
+		for(Signs signs : this.signs)
+		{
+			if(signs.isLocation(loc))
+			{
+				signs.update();
+			}
+		}
 	}
 	
 	public void removeSign(int id)
@@ -63,11 +106,34 @@ public class SignManager
 		}
 	}
 	
-	public void addSign(int id)
+	public void addSign(Signs signs)
 	{
-		if(this.getSign(id) == null)
+		if(!this.signs.contains(signs))
 		{
-			this.signs.add(new Signs(id));
+			this.signs.add(signs);
+		}
+	}
+	
+	public void createSign(Location loc, int GameID)
+	{
+		int signID = this.nextInt();
+		sm.addConfig("Signs_" + signID, "plugins/Maze/signs");
+		FileConfiguration config = sm.getConfig("Signs_" + signID);
+		config.set("GameID", GameID);
+		Utils.getInstance().setConfigLocation("Location", "Signs_" + signID, config, loc);
+		Signs signs = new Signs(signID);
+		this.addSign(signs);
+	}
+	
+	public void deleteSign(int ID)
+	{
+		if(sm.getConfig("Signs_" + ID) != null)
+		{
+			if(this.getSignByID(ID) != null){
+				this.removeSign(ID);
+				sm.deleteConfig("Signs_" + ID);
+				Maze.log.info("Sign DELETED ! " + ID);
+			} 
 		}
 	}
 	
@@ -75,7 +141,7 @@ public class SignManager
 	{
 		for(Signs signs : this.signs)
 		{
-			if(signs.getID() == id){
+			if(signs.getGameID() == id){
 				return signs;
 			}
 		}

@@ -3,11 +3,14 @@ package ca.benliam12.maze.game;
 import java.util.ArrayList;
 
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import ca.benliam12.maze.Maze;
+import ca.benliam12.maze.signs.SignManager;
+import ca.benliam12.maze.utils.PlayerUtils;
 import ca.benliam12.maze.utils.SettingManager;
 import ca.benliam12.maze.utils.Utils;
 
@@ -16,7 +19,7 @@ public class Game
 	private int id;
 	private int maxPlayer;
 	private int minPlayer;
-	private int startTime;
+	private long startTime;
 	private Location spawn;
 	private Location waitroom;
 	private String state;
@@ -25,6 +28,7 @@ public class Game
 	private FileConfiguration config;
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private SettingManager sm = SettingManager.getInstance();
+	private SignManager signm = SignManager.getInstance();
 	private Utils utils = Utils.getInstance();
 	private CountDown countdown;
 	private Thread thread;
@@ -41,7 +45,9 @@ public class Game
 	private void addPlayer(Player p)
 	{
 		if(!this.isPlayer(p)){
+			p.getInventory().setItem(8,PlayerUtils.getInstance().getDoor());
 			this.players.add(p);
+			p.setGameMode(GameMode.ADVENTURE);
 		}
 	}
 	
@@ -51,12 +57,15 @@ public class Game
 		{
 			this.players.remove(p);
 			Maze.getHub().toHub(p);
+			PlayerUtils.getInstance().clearInventory(p);
+			p.updateInventory();
 		}
 		
 		if(this.getState().equalsIgnoreCase("inprocess"))
 		{
 			if(this.players.size() == 0)
 			{
+				this.setState("lobby");
 				this.restart();
 			}
 		} 
@@ -68,11 +77,13 @@ public class Game
 				this.countdown.setCanStart(false);
 			}
 		}
+		signm.updateSign(this.id);
 	}
 	
-	private int getElapseTime(int time)
+	private double getElapseTime(long time)
 	{
-		return time - this.startTime;
+		double rTime = (time - this.startTime) / 1000;
+		return rTime;
 	}
 	
 	private void load()
@@ -148,13 +159,14 @@ public class Game
 		{
 			this.setState("lobby");
 			this.load();
-			this.countdown = new CountDown(this.id, 30);
-			this.thread = new Thread(this.countdown);
-			this.thread.start();
 		} else {
 			this.state = "off";
 			Maze.log.info("Empty config for game : "+ id);
 		}
+		int[] i = {1,2,3,4,5,10,15,20,30};
+		this.countdown = new CountDown(this.id, 30, i);
+		this.thread = new Thread(this.countdown);
+		this.thread.start();
 	}
 	
 	public void stop()
@@ -183,11 +195,13 @@ public class Game
 	
 	public void start()
 	{
-		this.startTime = Math.round(System.currentTimeMillis() / 1000);
+		this.startTime = System.currentTimeMillis();
 		this.state = "inprocess";
+		signm.updateSign(this.id);
 		for(Player player : this.players)
 		{
 			player.teleport(this.spawn);
+			PlayerUtils.getInstance().getDoor(player);
 		}
 	}
 	
@@ -215,25 +229,32 @@ public class Game
 			p.sendMessage(Maze.prefix + ChatColor.RED + ChatColor.BOLD + "This game is offline !");
 			return;
 		}
-		
-		if(!this.isPlayer(p)){
-			this.addPlayer(p);
-			p.teleport(this.waitroom);
-			this.broadcast(Maze.prefix + ChatColor.YELLOW + p.getName() + " has join the game " + this.getPlayerAmount());
-			if(this.canStart())
-			{
-				this.countdown.setCanStart(true);
+		if(!this.isfull())
+		{
+			if(!this.isPlayer(p)){
+				this.addPlayer(p);
+				p.teleport(this.waitroom);
+				this.broadcast(Maze.prefix + ChatColor.YELLOW + p.getName() + " has join the game " + this.getPlayerAmount());
+				if(this.canStart())
+				{
+					this.countdown.setCanStart(true);
+				}
+				signm.updateSign(this.id);
 			}
+		}
+		else 
+		{
+			p.sendMessage(Maze.prefix + ChatColor.RED + "This game is full");
 		}
 	}
 	
 	public void finishPlayer(Player p)
 	{
-		p.sendMessage(Maze.prefix + ChatColor.GREEN + "You finish the maze in : "+ this.getElapseTime(Math.round(System.currentTimeMillis() / 1000)) + " seconds");
+		p.sendMessage(Maze.prefix + ChatColor.GREEN + "You finish the maze in : "+ this.getElapseTime(System.currentTimeMillis()) + " seconds");
 		this.removePlayer(p);
-		this.broadcast(Maze.prefix + ChatColor.GREEN + p.getName() + " has finish the maze in : "+ this.getElapseTime(Math.round(System.currentTimeMillis() / 1000)) + " seconds");
+		this.broadcast(Maze.prefix + ChatColor.GREEN + p.getName() + " has finish the maze in : "+ this.getElapseTime(System.currentTimeMillis()) + " seconds");
+
 	}
-	
 	/*
 	 * Getters
 	 */
@@ -279,16 +300,17 @@ public class Game
 	
 	public boolean canStart()
 	{
-		if(this.players.size() >= this.minPlayer)
-		{
-			return true;
-		}
-		return false;
+		return this.players.size() >= this.minPlayer;
 	}
 	
 	public boolean isToggled()
 	{
 		return this.isToggled;
+	}
+	
+	public boolean isfull()
+	{
+		return this.players.size() == this.maxPlayer;
 	}
 	
 	public ArrayList<Player> getPlayer()
@@ -325,11 +347,13 @@ public class Game
 		}
 		this.config.set("infos.istoggled", this.isToggled);
 		sm.saveConfig("Arena_" + this.id, this.config);
+		signm.updateSign(this.id);
 	}
 	
 	public void setState(String state)
 	{
 		this.state = state;
+		signm.updateSign(this.id);
 	}
 	
 	public void setName(String name)
@@ -337,18 +361,15 @@ public class Game
 		this.name = name;
 		this.config.set("infos.name", name);
 		sm.saveConfig("Arena_" + this.id, this.config);
+		signm.updateSign(this.id);
 	}
 	
 	public void setMaxPlayer(int maxPlayer)
 	{
-		if(this.config == null)
-		{
-			Maze.log.info("YEP");
-			return;
-		}
 		this.maxPlayer = maxPlayer;
 		this.config.set("infos.maxPlayer", maxPlayer);
 		sm.saveConfig("Arena_" + this.id, this.config);
+		signm.updateSign(this.id);
 	}
 	
 	public void setMinPlayer(int minPlayer)
@@ -367,6 +388,6 @@ public class Game
 	public void setWaitRoom(Location waitroom)
 	{
 		this.waitroom = waitroom;
-		this.utils.setConfigLocation("waitroom", "Arena_" + this.id, this.config, spawn);
+		this.utils.setConfigLocation("waitroom", "Arena_" + this.id, this.config, waitroom);
 	}
 }

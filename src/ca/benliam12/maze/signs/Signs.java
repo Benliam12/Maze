@@ -8,6 +8,7 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 
 import ca.benliam12.maze.game.Game;
 import ca.benliam12.maze.game.GameManager;
@@ -30,10 +31,10 @@ public class Signs
 	private void load()
 	{
 		FileConfiguration config = sm.getConfig("Signs_" + this.ID);
-		if(config.get("ArenaID") != null)
+		if(config.get("GameID") != null)
 		{
 			try{
-				int GameID = config.getInt("ArenaID");
+				int GameID = config.getInt("GameID");
 				this.GameID = GameID;
 			}
 			catch(Exception ex)
@@ -54,7 +55,6 @@ public class Signs
 		{
 			SignManager.getInstance().removeSign(this.ID);
 		}
-		
 	}
 	
 	public Signs(int id)
@@ -63,6 +63,7 @@ public class Signs
 		if(sm.getConfig("Signs_" + id) != null)
 		{
 			this.load();
+			this.update();
 		} else
 		{
 			SignManager.getInstance().removeSign(id);
@@ -104,27 +105,34 @@ public class Signs
 				{
 					this.closeSign(sign);
 				}
+
 			}
 			else
 			{
 				sign.setLine(2, "Null");
 				this.closeSign(sign);
 			}
-		} else
+		} 
+		else
 		{
+			SignManager.getInstance().deleteSign(this.ID);
 			//TODO : Remove sign from SignManager
 		}
+		
 	}
 	
-	public void setLocation(Location loc)
+	public void joinGame(Player p)
 	{
-		this.location = loc.clone();
+		GameManager.getInstance().addPlayer(this.GameID, p);
 	}
 	
 	public void setGameID(int id)
 	{
 		this.GameID = id;
 		this.update();
+		FileConfiguration config = sm.getConfig("Signs_" + this.ID);
+		config.set("GameID", id);
+		sm.saveConfig("Signs_" + this.ID, config);
 	}
 	
 	public int getID()
@@ -132,13 +140,14 @@ public class Signs
 		return this.ID;
 	}
 	
-	public int getGame()
+	public int getGameID()
 	{
 		return this.GameID;
 	}
 	
 	public boolean isLocation(Location loc)
 	{
+	
 		if(this.location.getBlockX() == loc.getBlockX() && this.location.getBlockY() == loc.getBlockY() && this.location.getBlockZ() == loc.getBlockZ())
 		{
 			return true;

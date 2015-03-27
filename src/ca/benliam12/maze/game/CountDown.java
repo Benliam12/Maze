@@ -1,5 +1,7 @@
 package ca.benliam12.maze.game;
 
+import java.util.ArrayList;
+
 import org.bukkit.ChatColor;
 
 import ca.benliam12.maze.Maze;
@@ -8,6 +10,7 @@ public class CountDown implements Runnable
 {
 	private int id;
 	private int time;
+	private ArrayList<Integer> wait = new ArrayList<>();
 	private boolean started = false;
 	private GameManager gm = GameManager.getInstance();
 	
@@ -17,10 +20,14 @@ public class CountDown implements Runnable
 	 * @param ID Game ID
 	 * @param time Duration of the timer in SECONDS
 	 */
-	public CountDown(int ID, int time)
+	public CountDown(int ID, int time, int[] wait)
 	{
 		this.id = ID;
 		this.time = time;
+		for(Integer integer : wait)
+		{
+			this.wait.add(integer);
+		}
 	}
 	
 	public void setTimer(int time)
@@ -54,7 +61,11 @@ public class CountDown implements Runnable
 					}
 					else 
 					{
-						gm.getGame(this.id).broadcast(Maze.prefix + ChatColor.GREEN + "Game start in : " + this.time);
+						if(this.wait.contains(this.time))
+						{
+							gm.getGame(this.id).broadcast(Maze.prefix + ChatColor.GREEN + "Game start in : " + this.time + " seconds");
+						}
+						
 						this.time--;	
 					}
 					try

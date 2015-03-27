@@ -8,6 +8,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import ca.benliam12.maze.Maze;
+import ca.benliam12.maze.signs.SignManager;
 import ca.benliam12.maze.utils.SettingManager;
 public class GameManager
 {
@@ -15,10 +16,11 @@ public class GameManager
 	
 	private static GameManager instance = new GameManager();
 	private SettingManager sm = SettingManager.getInstance();
+	private SignManager signm = SignManager.getInstance();
 	
 	private int nextInt()
 	{
-		int id = 0;
+		int id = 1;
 		while(sm.isFile("Arena_" + id + ".yml", "plugins/Maze/arenas"))
 		{
 			id++;
@@ -45,10 +47,7 @@ public class GameManager
 	{
 		for(Game game : this.games)
 		{
-			for(Player player : game.getPlayer())
-			{
-				game.leavePlayer(player);
-			}
+			game.stop();
 		}
 	}
 	
@@ -102,7 +101,7 @@ public class GameManager
 		} 
 		else 
 		{
-			p.sendMessage(Maze.prefix + ChatColor.RED + "You are already in game !");
+			p.sendMessage(Maze.prefix + ChatColor.RED + "You are not in game !");
 		}
 	}
 	/*
@@ -121,6 +120,7 @@ public class GameManager
 		game.setWaitRoom(spawn);
 		game.restart();
 		this.addGame(game);
+		signm.updateSign(id);
 		player.sendMessage(Maze.prefix + ChatColor.GREEN + "Game created ! (Id : " + id + ")");
 	}
 	
@@ -134,14 +134,20 @@ public class GameManager
 		if(sm.getConfig("Arena_" + ID) != null)
 		{
 			if(this.getGame(ID) != null){
+				this.getGame(ID).stop();
 				this.removeGame(ID);
 				sm.deleteConfig("Arena_" + ID);
+				signm.updateSign(ID);
 				player.sendMessage(Maze.prefix + ChatColor.GREEN + "Game deleted !");
 			} 
 			else
 			{
 				player.sendMessage(Maze.prefix + ChatColor.RED + "This game does not exists !");
 			}
+		} 
+		else
+		{
+			player.sendMessage(Maze.prefix + ChatColor.RED + "Invalid ID");
 		}
 	}
 	
@@ -198,7 +204,15 @@ public class GameManager
 			if(game.getState() != null){
 				if(game.getState().equalsIgnoreCase("lobby"))
 				{
-					state = ChatColor.GREEN + "" + ChatColor.BOLD + "[Waitting]";
+					if(game.isfull())
+					{
+						state = ChatColor.RED + "" + ChatColor.BOLD + "[FULL]";
+					}
+					else
+					{
+						state = ChatColor.GREEN + "" + ChatColor.BOLD + "[Waitting]";
+					}
+					
 				}
 				else if(game.getState().equalsIgnoreCase("off"))
 				{
