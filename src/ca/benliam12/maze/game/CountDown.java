@@ -30,21 +30,36 @@ public class CountDown extends Thread
 		}
 	}
 	
+	/**
+	 * Set the initial time
+	 * 
+	 * @param time New initial time
+	 */
 	public void setTimer(int time)
 	{
 		this.time = time;
 	}
 	
+	/**
+	 * Set a attached game
+	 * 
+	 * @param game Object Game
+	 */
 	public void setGame(Game game)
 	{
 		this.game = game;
 	}
 	
+	/**
+	 * Set if the time can start
+	 * 
+	 * @param canstart True/False
+	 */
 	public void setCanStart(boolean canstart)
 	{
 		this.started = canstart;
 	}
-	
+
 	public void stopCountDown()
 	{
 		this.running = false;
@@ -55,6 +70,11 @@ public class CountDown extends Thread
 		this.running = true;
 	}
 	
+	/**
+	 * Restarting the countdown with new values
+	 * 
+	 * @param game Object game
+	 */
 	public void restartCountDown(Game game)
 	{
 		this.running = true;

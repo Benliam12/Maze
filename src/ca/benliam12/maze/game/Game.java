@@ -10,7 +10,6 @@ import org.bukkit.entity.Player;
 
 import ca.benliam12.maze.Maze;
 import ca.benliam12.maze.signs.SignManager;
-import ca.benliam12.maze.utils.PlayerUtils;
 import ca.benliam12.maze.utils.SettingManager;
 import ca.benliam12.maze.utils.Utils;
 
@@ -45,7 +44,6 @@ public class Game
 	private void addPlayer(Player p)
 	{
 		if(!this.isPlayer(p)){
-			p.getInventory().setItem(8,PlayerUtils.getInstance().getDoor());
 			this.players.add(p);
 			p.setGameMode(GameMode.ADVENTURE);
 		}
@@ -57,7 +55,6 @@ public class Game
 		{
 			this.players.remove(p);
 			Maze.getHub().toHub(p);
-			PlayerUtils.getInstance().clearInventory(p);
 			p.updateInventory();
 		}
 		
@@ -169,6 +166,9 @@ public class Game
 		this.thread.start();
 	}
 	
+	/**
+	 * Method to stop the game
+	 */
 	public void stop()
 	{
 		for(Player player : this.players)
@@ -180,6 +180,9 @@ public class Game
 		this.thread.interrupt();
 	}
 	
+	/**
+	 * Restart the game
+	 */
 	public void restart()
 	{	
 		this.state = "lobby";
@@ -191,6 +194,9 @@ public class Game
 		this.load();
 	}
 	
+	/**
+	 * Start the game
+	 */
 	public void start()
 	{
 		this.startTime = System.currentTimeMillis();
@@ -199,10 +205,14 @@ public class Game
 		for(Player player : this.players)
 		{
 			player.teleport(this.spawn);
-			PlayerUtils.getInstance().getDoor(player);
 		}
 	}
 	
+	/**
+	 * Send message to all player in the Game
+	 * 
+	 * @param message Message to send
+	 */
 	public void broadcast(String message)
 	{
 		for(Player player : this.players)
@@ -213,6 +223,11 @@ public class Game
 	/*
 	 * Player interactions
 	 */
+	/**
+	 * When a player leave the Game
+	 * 
+	 * @param p Object player
+	 */
 	public void leavePlayer(Player p)
 	{	
 		p.sendMessage(Maze.prefix + ChatColor.YELLOW + "You left the game !");
@@ -220,6 +235,11 @@ public class Game
 		this.broadcast(Maze.prefix + ChatColor.YELLOW + p.getName() + " has left the game " + this.getPlayerAmount());
 	}
 	
+	/**
+	 * When a player join the Game
+	 * 
+	 * @param p Object Player
+	 */
 	public void joinPlayer(Player p)
 	{
 		if(this.getState().equalsIgnoreCase("off"))
@@ -246,6 +266,11 @@ public class Game
 		}
 	}
 	
+	/**
+	 * When player finish the game
+	 * 
+	 * @param p Object Player
+	 */
 	public void finishPlayer(Player p)
 	{
 		p.sendMessage(Maze.prefix + ChatColor.GREEN + "You finish the maze in : "+ this.getElapseTime(System.currentTimeMillis()) + " seconds");
@@ -256,32 +281,62 @@ public class Game
 	/*
 	 * Getters
 	 */
-	
+	/**
+	 * Get the GameID
+	 * 
+	 * @return Id of the Game
+	 */
 	public int getID()
 	{
 		return this.id;
 	}
 	
+	/**
+	 * Get The maximum amount player that can join the game
+	 * 
+	 * @return Maximum amount player
+	 */
 	public int getMaxPlayer()
 	{
 		return this.maxPlayer;
 	}
 	
+	/**
+	 * Get The minimum amount of playe that can join the game
+	 * 
+	 * @return Minimum amount of player
+	 */
 	public int getMinPlayer()
 	{
 		return this.minPlayer;
 	}
 	
+	/**
+	 * Get the spawn Location of the Maze
+	 * 
+	 * @return Location of the spawn
+	 */
 	public Location getSpawn()
 	{
 		return this.spawn;
 	}
 	
+	/**
+	 * Get the waitroom Location of the Maze
+	 * 
+	 * @return Location of the waitroom
+	 */
 	public Location getWaitRoom()
 	{
 		return this.waitroom;
 	}
 	
+	/**
+	 * Get if the player is in the game
+	 * 
+	 * @param name Player name
+	 * @return True / False
+	 */
 	public boolean isPlayer(String name)
 	{
 		for(Player p : this.players)
@@ -291,31 +346,62 @@ public class Game
 		return false;
 	}
 	
+	/**
+	 * Get if the player is in the game
+	 * 
+	 * @param name Object player
+	 * @return True / False
+	 */
 	public boolean isPlayer(Player p)
 	{
 		return this.players.contains(p);
 	}
 	
+	/**
+	 * If the amount of player is enough to start
+	 * 
+	 * @return True / False
+	 */
 	public boolean canStart()
 	{
 		return this.players.size() >= this.minPlayer;
 	}
 	
+	/**
+	 * If the game is toggled
+	 * 
+	 * @return True / False
+	 */
 	public boolean isToggled()
 	{
 		return this.isToggled;
 	}
 	
+	/**
+	 * If the game is full
+	 * 
+	 * @return True / False
+	 */
 	public boolean isfull()
 	{
 		return this.players.size() == this.maxPlayer;
 	}
 	
+	/**
+	 * Get all players that are in the game
+	 * 
+	 * @return ArrayList of players
+	 */
 	public ArrayList<Player> getPlayer()
 	{
 		return this.players;
 	}
 	
+	/**
+	 * Get the State of the game
+	 * 
+	 * @return State of the game
+	 */
 	public String getState()
 	{
 		if(isToggled)
@@ -325,6 +411,11 @@ public class Game
 		return this.state;
 	}
 	
+	/**
+	 * Get the name of the Game
+	 * 
+	 * @return Name of the game
+	 */
 	public String getName()
 	{
 		return this.name;
@@ -332,7 +423,9 @@ public class Game
 	/*
 	 * Setters
 	 */
-	
+	/**
+	 * Toggle the Game (To true if false and to false if true)
+	 */
 	public void toggle()
 	{
 		if(this.isToggled)
@@ -348,12 +441,22 @@ public class Game
 		signm.updateSign(this.id);
 	}
 	
+	/**
+	 * Set the state of the game
+	 * 
+	 * @param state New state of the game
+	 */
 	public void setState(String state)
 	{
 		this.state = state;
 		signm.updateSign(this.id);
 	}
 	
+	/**
+	 * Set the name of the Game
+	 * 
+	 * @param name New name of the game
+	 */
 	public void setName(String name)
 	{
 		this.name = name;
@@ -362,6 +465,11 @@ public class Game
 		signm.updateSign(this.id);
 	}
 	
+	/**
+	 * Set max amount of player
+	 * 
+	 * @param maxPlayer New max amount of player
+	 */
 	public void setMaxPlayer(int maxPlayer)
 	{
 		this.maxPlayer = maxPlayer;
@@ -370,6 +478,11 @@ public class Game
 		signm.updateSign(this.id);
 	}
 	
+	/**
+	 * Set min amount of player
+	 * 
+	 * @param minPlayer New min amount of player
+	 */
 	public void setMinPlayer(int minPlayer)
 	{
 		this.minPlayer = minPlayer;
@@ -377,12 +490,22 @@ public class Game
 		sm.saveConfig("Arena_" + this.id, this.config);
 	}
 	
+	/**
+	 * Set a new spawn location
+	 * 
+	 * @param spawn Location of the new spawn
+	 */
 	public void setSpawn(Location spawn)
 	{
 		this.spawn = spawn;
 		this.utils.setConfigLocation("spawn", "Arena_" + this.id, this.config, spawn);
 	}
 	
+	/**
+	 * Set a new waitroom location
+	 * 
+	 * @param spawn Location of the new waitroom
+	 */
 	public void setWaitRoom(Location waitroom)
 	{
 		this.waitroom = waitroom;

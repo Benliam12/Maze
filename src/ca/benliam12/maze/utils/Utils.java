@@ -15,6 +15,13 @@ public class Utils
 		return instance;
 	}
 	
+	/**
+	 * Get a location from a config file
+	 * 
+	 * @param path Path to the location
+	 * @param config Config file
+	 * @return The location gotten
+	 */
 	public Location getLocation(String path, FileConfiguration config)
 	{
 		if(config.get(path) != null){
@@ -29,6 +36,14 @@ public class Utils
 		return null;
 	}
 	
+	/**
+	 * Set a location to a config file
+	 * 
+	 * @param path Path to the location
+	 * @param name Name of the config
+	 * @param config Config file
+	 * @param location Location to save
+	 */
 	public void setConfigLocation(String path, String name, FileConfiguration config, Location location)
 	{
 		config.set(path + ".world", location.getWorld().getName());

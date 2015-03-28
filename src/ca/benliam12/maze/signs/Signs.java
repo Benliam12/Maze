@@ -71,6 +71,9 @@ public class Signs
 		}
 	}
 	
+	/**
+	 * Update this sign
+	 */
 	public void update()
 	{
 		Block block = this.location.getWorld().getBlockAt(this.location);
@@ -121,11 +124,21 @@ public class Signs
 		
 	}
 	
+	/**
+	 * Method to make a player join the game the sign is linked to 
+	 * 
+	 * @param p Object player
+	 */
 	public void joinGame(Player p)
 	{
 		GameManager.getInstance().addPlayer(this.GameID, p);
 	}
 	
+	/**
+	 * Set a new GameID to this sign
+	 * 
+	 * @param id new GameID
+	 */
 	public void setGameID(int id)
 	{
 		this.GameID = id;
@@ -135,16 +148,32 @@ public class Signs
 		sm.saveConfig("Signs_" + this.ID, config);
 	}
 	
+	/**
+	 * Get the sign ID
+	 * 
+	 * @return Id of the sign
+	 */
 	public int getID()
 	{
 		return this.ID;
 	}
 	
+	/**
+	 * Get GameID
+	 * 
+	 * @return Game Id of this sign
+	 */
 	public int getGameID()
 	{
 		return this.GameID;
 	}
 	
+	/**
+	 * Checking if ths sign is a this location
+	 * 
+	 * @param loc Location to compare
+	 * @return True / False
+	 */
 	public boolean isLocation(Location loc)
 	{
 	

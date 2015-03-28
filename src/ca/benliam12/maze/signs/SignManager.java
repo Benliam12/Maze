@@ -9,7 +9,11 @@ import org.bukkit.configuration.file.FileConfiguration;
 import ca.benliam12.maze.Maze;
 import ca.benliam12.maze.utils.SettingManager;
 import ca.benliam12.maze.utils.Utils;
-
+/**
+ * 
+ * @author Benliam12
+ * @version 1.0
+ */
 public class SignManager 
 {
 	private SettingManager sm = SettingManager.getInstance();
@@ -42,7 +46,9 @@ public class SignManager
 	{
 		return instance;
 	}
-	
+	/**
+	 * Loadings all signs
+	 */
 	public void load()
 	{
 		if(sm.countFile("plugins/Maze/signs") != 0)
@@ -68,6 +74,9 @@ public class SignManager
 		}
 	}
 	
+	/**
+	 * Update All Signs
+	 */
 	public void updateSigns()
 	{
 		for(Signs signs : this.signs)
@@ -76,6 +85,11 @@ public class SignManager
 		}
 	}
 	
+	/**
+	 * Update all signs with a specific game
+	 * 
+	 * @param id Id of the game
+	 */
 	public void updateSign(int id)
 	{
 		for(Signs s : this.signs)
@@ -87,6 +101,11 @@ public class SignManager
 		}
 	}
 	
+	/**
+	 * Update the sign at a specific location
+	 * 
+	 * @param loc Location of the sign
+	 */
 	public void updateSign(Location loc)
 	{
 		for(Signs signs : this.signs)
@@ -98,6 +117,11 @@ public class SignManager
 		}
 	}
 	
+	/**
+	 * Remove a specific sign
+	 * 
+	 * @param id Id of the sign
+	 */
 	public void removeSign(int id)
 	{
 		if(this.getSign(id) != null)
@@ -106,6 +130,11 @@ public class SignManager
 		}
 	}
 	
+	/**
+	 * Add a sign using object signs
+	 * 
+	 * @param signs Instance of object sign
+	 */
 	public void addSign(Signs signs)
 	{
 		if(!this.signs.contains(signs))
@@ -114,6 +143,12 @@ public class SignManager
 		}
 	}
 	
+	/**
+	 * Creating a new signs
+	 * 
+	 * @param loc Location of the sign
+	 * @param GameID The game the sign is linked to
+	 */
 	public void createSign(Location loc, int GameID)
 	{
 		int signID = this.nextInt();
@@ -125,6 +160,11 @@ public class SignManager
 		this.addSign(signs);
 	}
 	
+	/**
+	 * Delete a specific sign
+	 * 
+	 * @param ID Id of the target sign
+	 */
 	public void deleteSign(int ID)
 	{
 		if(sm.getConfig("Signs_" + ID) != null)
@@ -137,6 +177,13 @@ public class SignManager
 		}
 	}
 	
+	/**
+	 * Get a specific sign using a gameID
+	 * 
+	 *
+	 * @param id ID of the game
+	 * @deprecated You must use the getSigns(id)
+	 */
 	public Signs getSign(int id)
 	{
 		for(Signs signs : this.signs)
@@ -148,6 +195,12 @@ public class SignManager
 		return null;
 	}
 	
+	/**
+	 * Get a specific sign using it location
+	 * 
+	 * @param loc Location of the sign
+	 * @return Object Signs
+	 */
 	public Signs getSign(Location loc)
 	{
 		for(Signs signs : this.signs)
