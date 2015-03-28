@@ -32,7 +32,6 @@ public class Game
 	private PlayerUtils playerutils = PlayerUtils.getInstance();
 	private Utils utils = Utils.getInstance();
 	private CountDown countdown;
-	private Thread thread;
 	
 	/*
 	 * Private methods
@@ -171,8 +170,6 @@ public class Game
 		}
 		int[] i = {1,2,3,4,5,10,15,20,30};
 		this.countdown = new CountDown(this, 30, i);
-		this.thread = new Thread(this.countdown);
-		this.thread.start();
 	}
 	
 	/**
@@ -186,7 +183,6 @@ public class Game
 			Maze.getHub().toHub(player);
 		}
 		this.countdown.stopCountDown();
-		this.thread.interrupt();
 	}
 	
 	/**
@@ -344,6 +340,14 @@ public class Game
 	}
 	
 	/**
+	 * Getting the countdown of the game
+	 */
+	public CountDown getCountDown()
+	{
+		return this.countdown;
+	}
+	
+	/**
 	 * Get if the player is in the game
 	 * 
 	 * @param name Player name
@@ -435,6 +439,11 @@ public class Game
 	/*
 	 * Setters
 	 */
+	
+	public void setCountDown(CountDown countdown)
+	{
+		this.countdown = countdown;
+	}
 	/**
 	 * Toggle the Game (To true if false and to false if true)
 	 */

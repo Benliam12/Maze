@@ -20,6 +20,7 @@ public class Maze extends JavaPlugin
 {
 	public static String prefix = ChatColor.GOLD + "[" + ChatColor.YELLOW + "Maze" + ChatColor.GOLD + "] ";
 	public static Logger log = Logger.getLogger("minecraft");
+	private static Maze maze;
 	
 	public static Hub getHub()
 	{
@@ -34,6 +35,11 @@ public class Maze extends JavaPlugin
 		}
 	}
 	
+	public static Maze getMaze()
+	{
+		return maze;
+	}
+	
 	public void onEnable()
 	{
 		if(getHub() == null)
@@ -42,6 +48,7 @@ public class Maze extends JavaPlugin
 			Bukkit.getPluginManager().disablePlugin(this);
 			return;
 		}
+		maze = this;
 		PluginManager pm = Bukkit.getPluginManager();
 		pm.registerEvents(new PlayerListener(), this);
 		SettingManager.getInstance().setup();

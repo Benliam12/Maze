@@ -17,6 +17,8 @@ public class GameManager
 	private static GameManager instance = new GameManager();
 	private SettingManager sm = SettingManager.getInstance();
 	private SignManager signm = SignManager.getInstance();
+	private Thread thread;
+	private CountDownThread cdt;
 	
 	private int nextInt()
 	{
@@ -41,6 +43,9 @@ public class GameManager
 	public void setup()
 	{
 		this.loadGames();
+		this.cdt = new CountDownThread();
+		this.thread = new Thread(this.cdt);
+		this.thread.start();
 	}
 	
 	public void stop()
@@ -49,6 +54,7 @@ public class GameManager
 		{
 			game.stop();
 		}
+		this.cdt.end();
 	}
 	
 	public void loadGames()
@@ -190,6 +196,11 @@ public class GameManager
 			}
 		}
 		return null;
+	}
+	
+	public ArrayList<Game> getGames()
+	{
+		return this.games;
 	}
 	
 	public void getGames(Player p)

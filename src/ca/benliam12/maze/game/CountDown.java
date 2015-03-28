@@ -13,7 +13,6 @@ public class CountDown extends Thread
 	private int time;
 	private ArrayList<Integer> wait = new ArrayList<>();
 	private boolean started = false;
-	private boolean running = true;
 	
 	/**
 	 * Constructor
@@ -63,12 +62,12 @@ public class CountDown extends Thread
 
 	public void stopCountDown()
 	{
-		this.running = false;
+		this.started = false;
 	}
 	
 	public void startCountDown()
 	{
-		this.running = true;
+		this.started = true;
 	}
 	
 	/**
@@ -78,49 +77,33 @@ public class CountDown extends Thread
 	 */
 	public void restartCountDown(Game game)
 	{
-		this.running = true;
+		this.started = true;
 		this.time = 30;
 		this.game = game;
 	}
 	
-	@Override
-	public void run()
+	public void go()
 	{
-		while(this.running)
+		if(this.game.canStart() && this.game.getState().equalsIgnoreCase("lobby") && this.started)
 		{
-			if(this.game != null)
+			if(this.time == 0)
 			{
-				if(this.game.canStart() && this.game.getState().equalsIgnoreCase("lobby") && this.started)
-				{
-					if(this.time == 0)
-					{
-						this.game.broadcast(Maze.prefix + ChatColor.GREEN + "Game has started !");
-						this.game.start();
-					}
-					else 
-					{
-						if(this.wait.contains(this.time))
-						{
-							this.game.broadcast(Maze.prefix + ChatColor.GREEN + "Game start in : " + this.time + " seconds");
-						}
-						for(Player player : this.game.getPlayer())
-						{
-							player.setLevel(this.time);
-						}
-						
-						this.time--;	
-					}
-					try
-					{
-						Thread.sleep(1000);
-					}
-					catch (Exception ex)
-					{
-						this.stopCountDown();
-					}
-				}	
+				this.game.broadcast(Maze.prefix + ChatColor.GREEN + "Game has started !");
+				this.game.start();
 			}
-
-		}
+			else 
+			{
+				if(this.wait.contains(this.time))
+				{
+					this.game.broadcast(Maze.prefix + ChatColor.GREEN + "Game start in : " + this.time + " seconds");
+				}
+				for(Player player : this.game.getPlayer())
+				{
+					player.setLevel(this.time);
+				}
+				
+				this.time--;	
+			}
+		}		
 	}
 }
