@@ -114,10 +114,10 @@ public class PlayerListener implements Listener{
 			
 			if(inHand == null) return;
 			
-			if(player.getItemInHand().getType() == Material.WOODEN_DOOR)
+			if(player.getItemInHand().getType() == Material.BARRIER)
 			{
-				if(player.getItemInHand().getItemMeta().getDisplayName() != null) return;
-				if(player.getItemInHand().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.GOLD + "Exit"))
+				if(player.getItemInHand().getItemMeta().getDisplayName() == null) return;
+				if(player.getItemInHand().getItemMeta().getDisplayName().equalsIgnoreCase("§6Exit"))
 				{
 					gm.removePlayer(player);
 					return;

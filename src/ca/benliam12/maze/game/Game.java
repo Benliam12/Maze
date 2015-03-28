@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 
 import ca.benliam12.maze.Maze;
 import ca.benliam12.maze.signs.SignManager;
+import ca.benliam12.maze.utils.PlayerUtils;
 import ca.benliam12.maze.utils.SettingManager;
 import ca.benliam12.maze.utils.Utils;
 
@@ -28,6 +29,7 @@ public class Game
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private SettingManager sm = SettingManager.getInstance();
 	private SignManager signm = SignManager.getInstance();
+	private PlayerUtils playerutils = PlayerUtils.getInstance();
 	private Utils utils = Utils.getInstance();
 	private CountDown countdown;
 	private Thread thread;
@@ -45,7 +47,10 @@ public class Game
 	{
 		if(!this.isPlayer(p)){
 			this.players.add(p);
-		
+			p.getInventory().clear();
+			p.getInventory().setHeldItemSlot(0);
+			this.playerutils.giveDoor(p);
+			p.updateInventory();
 			p.setGameMode(GameMode.ADVENTURE);
 		}
 	}
@@ -56,6 +61,7 @@ public class Game
 		{
 			this.players.remove(p);
 			Maze.getHub().toHub(p);
+			p.getInventory().clear();
 			p.setLevel(0);
 			p.setExp((float) 0);
 			p.updateInventory();
@@ -207,6 +213,7 @@ public class Game
 		signm.updateSign(this.id);
 		for(Player player : this.players)
 		{
+			this.playerutils.giveDoor(player);
 			player.teleport(this.spawn);
 			player.setLevel(0);
 			player.setExp((float) 0); 
