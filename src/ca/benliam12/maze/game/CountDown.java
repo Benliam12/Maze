@@ -3,6 +3,7 @@ package ca.benliam12.maze.game;
 import java.util.ArrayList;
 
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 
 import ca.benliam12.maze.Maze;
 
@@ -101,6 +102,10 @@ public class CountDown extends Thread
 						if(this.wait.contains(this.time))
 						{
 							this.game.broadcast(Maze.prefix + ChatColor.GREEN + "Game start in : " + this.time + " seconds");
+						}
+						for(Player player : this.game.getPlayer())
+						{
+							player.setLevel(this.time);
 						}
 						
 						this.time--;	

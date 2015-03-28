@@ -45,6 +45,7 @@ public class Game
 	{
 		if(!this.isPlayer(p)){
 			this.players.add(p);
+		
 			p.setGameMode(GameMode.ADVENTURE);
 		}
 	}
@@ -55,6 +56,8 @@ public class Game
 		{
 			this.players.remove(p);
 			Maze.getHub().toHub(p);
+			p.setLevel(0);
+			p.setExp((float) 0);
 			p.updateInventory();
 		}
 		
@@ -205,6 +208,8 @@ public class Game
 		for(Player player : this.players)
 		{
 			player.teleport(this.spawn);
+			player.setLevel(0);
+			player.setExp((float) 0); 
 		}
 	}
 	
