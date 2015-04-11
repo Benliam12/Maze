@@ -1,4 +1,5 @@
 package ca.benliam12.maze.commands;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -66,7 +67,6 @@ public class Commands implements CommandExecutor
 					catch(Exception ex)
 					{
 						player.sendMessage(Maze.prefix + ChatColor.RED + "Invalid ID");
-						ex.printStackTrace();
 					}
 				} 
 				// Create command
@@ -84,7 +84,6 @@ public class Commands implements CommandExecutor
 					catch(Exception ex)
 					{
 						player.sendMessage(Maze.prefix + ChatColor.RED + "Invalid ID");
-						ex.printStackTrace();
 					}
 				}
 				else if(args[0].equalsIgnoreCase("setwaitroom"))
@@ -174,7 +173,27 @@ public class Commands implements CommandExecutor
 					{
 						player.sendMessage(Maze.prefix + ChatColor.RED + "Invalid ID");
 					}
-				} 
+				}
+				else if(args[0].equalsIgnoreCase("fjoin"))
+				{
+					Player target = Bukkit.getPlayer(args[1]);
+					if(target != null)
+					{
+						try{
+							int GameID = Integer.parseInt(args[2]);
+							this.gm.addPlayer(GameID,target);
+							player.sendMessage(Maze.prefix + ChatColor.GREEN + "Player : " + target.getName() + " was forced to join the game");
+						}
+						catch(Exception ex)
+						{
+							player.sendMessage(Maze.prefix + ChatColor.RED + "Invalid ID");
+						}
+					}
+					else
+					{
+						player.sendMessage(Maze.prefix + ChatColor.RED + "This player is not online !");
+					}
+				}
 			}
 			else
 			{

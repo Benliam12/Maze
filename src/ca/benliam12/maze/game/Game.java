@@ -70,7 +70,6 @@ public class Game
 		{
 			if(this.players.size() == 0)
 			{
-				this.setState("lobby");
 				this.restart();
 			}
 		} 

@@ -77,7 +77,7 @@ public class CountDown extends Thread
 	 */
 	public void restartCountDown(Game game)
 	{
-		this.started = true;
+		this.started = false;
 		this.time = 30;
 		this.game = game;
 	}
