@@ -85,6 +85,7 @@ public class SettingManager
 		createDirectory("plugins/Maze");
 		createDirectory("plugins/Maze/arenas");
 		createDirectory("plugins/Maze/signs");
+		addConfig("config","plugins/Maze");
 	}
 	/*
 	 * Configuration interactions

@@ -2,6 +2,7 @@ package ca.benliam12.maze.game;
 
 import java.util.ArrayList;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -9,6 +10,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import ca.benliam12.maze.Maze;
+import ca.benliam12.maze.event.GameJoinEvent;
+import ca.benliam12.maze.event.GameQuitEvent;
 import ca.benliam12.maze.signs.SignManager;
 import ca.benliam12.maze.utils.PlayerUtils;
 import ca.benliam12.maze.utils.SettingManager;
@@ -51,6 +54,7 @@ public class Game
 			this.playerutils.giveDoor(p);
 			p.updateInventory();
 			p.setGameMode(GameMode.ADVENTURE);
+			Bukkit.getPluginManager().callEvent(new GameJoinEvent(this, p));
 		}
 	}
 	
@@ -64,6 +68,7 @@ public class Game
 			p.setLevel(0);
 			p.setExp((float) 0);
 			p.updateInventory();
+			Bukkit.getPluginManager().callEvent(new GameQuitEvent(this, p));
 		}
 		
 		if(this.getState().equalsIgnoreCase("inprocess"))
