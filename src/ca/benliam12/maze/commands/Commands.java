@@ -35,7 +35,15 @@ public class Commands implements CommandExecutor
 				// Create command
 				else if(args[0].equalsIgnoreCase("create"))
 				{
-					gm.createGame(player,player.getLocation());
+					if(player.isOp())
+					{
+						gm.createGame(player,player.getLocation());
+					}
+					else
+					{
+						player.sendMessage(Maze.prefix + ChatColor.RED + "You dont' have the permission to perfom this command");
+					}
+					
 				} 
 				// List game command
 				else if(args[0].equalsIgnoreCase("list"))
@@ -72,14 +80,29 @@ public class Commands implements CommandExecutor
 				// Create command
 				else if(args[0].equalsIgnoreCase("create"))
 				{
-					gm.createGame(player,player.getLocation(),args[1]);
+					if(player.isOp())
+					{
+						gm.createGame(player,player.getLocation(),args[1]);
+					}
+					else
+					{
+						player.sendMessage(Maze.prefix + ChatColor.RED + "You dont' have the permission to perfom this command");
+					}
 				}
 				// Delete Command
 				else if(args[0].equalsIgnoreCase("delete"))
 				{
 					try{
 						int GameID = Integer.parseInt(args[1]);
-						gm.deleteGame(player, GameID);
+						if(player.isOp())
+						{
+							gm.deleteGame(player, GameID);
+						}
+						else
+						{
+							player.sendMessage(Maze.prefix + ChatColor.RED + "You dont' have the permission to perfom this command");
+						}
+						
 					}
 					catch(Exception ex)
 					{
@@ -90,8 +113,16 @@ public class Commands implements CommandExecutor
 				{
 					try{
 						int GameID = Integer.parseInt(args[1]);
-						gm.getGame(GameID).setWaitRoom(player.getLocation());
-						player.sendMessage(Maze.prefix + ChatColor.GREEN + "Wait room set !");
+						if(player.isOp())
+						{
+							gm.getGame(GameID).setWaitRoom(player.getLocation());
+							player.sendMessage(Maze.prefix + ChatColor.GREEN + "Wait room set !");
+						}
+						else
+						{
+							player.sendMessage(Maze.prefix + ChatColor.RED + "You dont' have the permission to perfom this command");
+						}
+				
 					}
 					catch(Exception ex)
 					{
@@ -102,8 +133,16 @@ public class Commands implements CommandExecutor
 				{
 					try{
 						int GameID = Integer.parseInt(args[1]);
-						gm.getGame(GameID).setSpawn(player.getLocation());
-						player.sendMessage(Maze.prefix + ChatColor.GREEN + "Spawn set !");
+						if(player.isOp())
+						{
+							gm.getGame(GameID).setSpawn(player.getLocation());
+							player.sendMessage(Maze.prefix + ChatColor.GREEN + "Spawn set !");
+						}
+						else
+						{
+							player.sendMessage(Maze.prefix + ChatColor.RED + "You dont' have the permission to perfom this command");
+						}
+						
 					}
 					catch(Exception ex)
 					{
@@ -114,15 +153,23 @@ public class Commands implements CommandExecutor
 				{
 					try{
 						int GameID = Integer.parseInt(args[1]);
-						gm.getGame(GameID).toggle();
-						if(gm.getGame(GameID).isToggled())
+						if(player.isOp())
 						{
-							player.sendMessage(Maze.prefix + ChatColor.YELLOW + "Toggled to :" + ChatColor.GREEN + " true");
+							gm.getGame(GameID).toggle();
+							if(gm.getGame(GameID).isToggled())
+							{
+								player.sendMessage(Maze.prefix + ChatColor.YELLOW + "Toggled to :" + ChatColor.GREEN + " true");
+							}
+							else
+							{
+								player.sendMessage(Maze.prefix + ChatColor.YELLOW + "Toggled to :" + ChatColor.RED + " false");	
+							}
 						}
 						else
 						{
-							player.sendMessage(Maze.prefix + ChatColor.YELLOW + "Toggled to :" + ChatColor.RED + " false");	
+							player.sendMessage(Maze.prefix + ChatColor.RED + "You dont' have the permission to perfom this command");
 						}
+					
 					}
 					catch(Exception ex)
 					{

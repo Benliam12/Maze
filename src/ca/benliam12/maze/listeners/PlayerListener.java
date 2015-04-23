@@ -49,7 +49,7 @@ public class PlayerListener implements Listener{
 			}
 		}
 	}
-	
+
 	@EventHandler
 	public void onSignChange(SignChangeEvent e)
 	{
