@@ -81,7 +81,7 @@ public class Signs
 		{
 			Sign sign = (Sign) block.getState();
 			Game game = GameManager.getInstance().getGame(this.GameID);
-			sign.setLine(0, ChatColor.DARK_AQUA + "Maze " +  ChatColor.DARK_PURPLE + "#" + this.GameID);
+			sign.setLine(0, ChatColor.BLUE + "Maze " +  ChatColor.DARK_PURPLE + "#" + this.GameID);
 			if(game != null)
 			{
 				sign.setLine(2,game.getName());
