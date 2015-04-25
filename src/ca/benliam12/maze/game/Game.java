@@ -1,5 +1,7 @@
 package ca.benliam12.maze.game;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import org.bukkit.Bukkit;
@@ -13,6 +15,7 @@ import ca.benliam12.maze.Maze;
 import ca.benliam12.maze.event.GameJoinEvent;
 import ca.benliam12.maze.event.GameQuitEvent;
 import ca.benliam12.maze.signs.SignManager;
+import ca.benliam12.maze.utils.DataBase;
 import ca.benliam12.maze.utils.PlayerUtils;
 import ca.benliam12.maze.utils.SettingManager;
 import ca.benliam12.maze.utils.Utils;
@@ -33,6 +36,7 @@ public class Game
 	private SettingManager sm = SettingManager.getInstance();
 	private SignManager signm = SignManager.getInstance();
 	private PlayerUtils playerutils = PlayerUtils.getInstance();
+	private DataBase dataBase = DataBase.getInstance();
 	private Utils utils = Utils.getInstance();
 	private CountDown countdown;
 	
@@ -261,15 +265,22 @@ public class Game
 		}
 		if(!this.isfull())
 		{
-			if(!this.isPlayer(p)){
-				this.addPlayer(p);
-				p.teleport(this.waitroom);
-				this.broadcast(Maze.prefix + ChatColor.YELLOW + p.getName() + " has join the game " + this.getPlayerAmount());
-				if(this.canStart())
-				{
-					this.countdown.setCanStart(true);
-				}
-				signm.updateSign(this.id);
+			if(!this.getState().equalsIgnoreCase("inprocess"))
+			{
+				if(!this.isPlayer(p)){
+					this.addPlayer(p);
+					p.teleport(this.waitroom);
+					this.broadcast(Maze.prefix + ChatColor.YELLOW + p.getName() + " has join the game " + this.getPlayerAmount());
+					if(this.canStart())
+					{
+						this.countdown.setCanStart(true);
+					}
+					signm.updateSign(this.id);
+				}		
+			}
+			else
+			{
+				p.sendMessage(Maze.prefix + ChatColor.RED + "Game in process !");
 			}
 		}
 		else 
@@ -288,7 +299,19 @@ public class Game
 		p.sendMessage(Maze.prefix + ChatColor.GREEN + "You finish the maze in : "+ this.getElapseTime(System.currentTimeMillis()) + " seconds");
 		this.removePlayer(p);
 		this.broadcast(Maze.prefix + ChatColor.GREEN + p.getName() + " has finish the maze in : "+ this.getElapseTime(System.currentTimeMillis()) + " seconds");
-
+		
+		try {
+			PreparedStatement sql = this.dataBase.getConnection().prepareStatement("INSERT INTO `maze_player_data` VALUES(0,?,?,?,?)");
+			sql.setString(1, p.getUniqueId().toString());
+			sql.setString(2, "" + System.currentTimeMillis());
+			sql.setString(3, "" + this.startTime);
+			sql.setString(4, "" + this.id);
+			sql.execute();
+			sql.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	/*
 	 * Getters

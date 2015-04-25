@@ -10,11 +10,15 @@ public class GameQuitEvent extends Event{
 
 	private Player player;
 	private Game game;
+	private static final HandlerList handlers = new HandlerList();
 	
-	@Override
 	public HandlerList getHandlers() {
-		// TODO Auto-generated method stub
-		return null;
+		return handlers;
+	}
+	
+	public static HandlerList getHandlerList()
+	{
+		return handlers;
 	}
 
 	public GameQuitEvent(Game game, Player player)
