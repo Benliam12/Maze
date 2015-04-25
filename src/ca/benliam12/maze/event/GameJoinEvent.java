@@ -13,9 +13,9 @@ public class GameJoinEvent extends Event{
 	private static final HandlerList handlers = new HandlerList();
 	 
 	public HandlerList getHandlers() {
-		return handlers;
+	    return handlers;
 	}
-	
+	 
 	public static HandlerList getHandlerList() {
 	    return handlers;
 	}
