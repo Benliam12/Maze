@@ -11,25 +11,13 @@ public class GameQuitEvent extends Event{
 	private Player player;
 	private Game game;
 	private static final HandlerList handlers = new HandlerList();
-	
-<<<<<<< HEAD
+
 	public HandlerList getHandlers() {
 		return handlers;
 	}
 	
-	public static HandlerList getHandlerList()
-	{
-		return handlers;
-=======
-	private static final HandlerList handlers = new HandlerList();
-	 
-	public HandlerList getHandlers() {
-	    return handlers;
-	}
-	 
 	public static HandlerList getHandlerList() {
 	    return handlers;
->>>>>>> origin/master
 	}
 
 	public GameQuitEvent(Game game, Player player)
