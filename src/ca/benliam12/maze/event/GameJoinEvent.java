@@ -10,6 +10,10 @@ public class GameJoinEvent extends Event{
 
 	private Player player;
 	private Game game;
+<<<<<<< HEAD
+=======
+	
+>>>>>>> origin/master
 	private static final HandlerList handlers = new HandlerList();
 	 
 	public HandlerList getHandlers() {
