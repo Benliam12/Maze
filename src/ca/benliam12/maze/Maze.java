@@ -12,7 +12,6 @@ import ca.benliam12.maze.commands.Commands;
 import ca.benliam12.maze.game.GameManager;
 import ca.benliam12.maze.listeners.PlayerListener;
 import ca.benliam12.maze.signs.SignManager;
-import ca.benliam12.maze.utils.DataBase;
 import ca.benliam12.maze.utils.SettingManager;
 
 import com.benliam12.hub.Hub;
@@ -56,7 +55,7 @@ public class Maze extends JavaPlugin
 		GameManager.getInstance().setup();
 		SignManager.getInstance().load();
 		getCommand("maze").setExecutor(new Commands());
-		DataBase.getInstance().connexion("localhost", "servers", "root", "", 3306);
+		//DataBase.getInstance().connexion("localhost", "servers", "root", "", 3306);
 	}
 	
 	public void onDisable()

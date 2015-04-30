@@ -1,8 +1,14 @@
 package ca.benliam12.maze.utils;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map.Entry;
+
+import org.bukkit.configuration.file.FileConfiguration;
+
+import ca.benliam12.maze.Maze;
+
 
 public class DataBase 
 {
@@ -12,28 +18,50 @@ public class DataBase
 	{
 		return db;
 	}
-	
-	private Connection connection;
-	public synchronized void connexion(String host, String db, String user, String password, int port)
+
+	private HashMap<String,Connection> connections = new HashMap<String, Connection>();
+	public synchronized boolean connexion(String name)
 	{		
+		FileConfiguration config = SettingManager.getInstance().getConfig("config");
+		String host = config.getString(name + ".host");
+		String db = config.getString(name + ".db");
+		String user = config.getString(name + ".user");
+		String password = config.getString(name + ".password");
+		int port = config.getInt(name + ".port");
+		
+		
 		String url = "jdbc:mysql://"+host+":"+port+"/" + db;
-		try {
-		    this.connection = DriverManager.getConnection( url, user, password);
-		} catch ( SQLException e ) {
-		    e.printStackTrace();
+		try 
+		{
+			Connection c  = DriverManager.getConnection( url, user, password);
+			this.connections.put(name, c);
+			return true;
+		}
+		catch ( SQLException e )
+		{
+		    Maze.log.info(e.getMessage());
+		    return false;
+		}
+		catch ( NullPointerException e)
+		{
+			return false;
+		}
+		catch ( Exception e )
+		{
+			return false;
 		}
 	}
 	
-	public Connection getConnection()
+	public Connection getConnection(String name)
 	{
-		return this.connection;
+		return this.connections.get(name);
 	}
 	
-	public synchronized void close()
+	public synchronized void close(String name)
 	{
 		try
 		{
-			this.connection.close();
+			this.connections.get(name).close();
 		}
 		catch(SQLException ex)
 		{
@@ -41,12 +69,20 @@ public class DataBase
 		}
 	}
 	
-	public boolean isConnect()
+	public synchronized void closeConnexions()
 	{
-		if(this.connection == null)
+		for(Entry<String, Connection> c : this.connections.entrySet())
 		{
-			return false;
+			try {
+				c.getValue().close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
-		return true;
+	}
+	
+	public boolean isConnect(String name)
+	{
+		return this.connections.containsKey(name);
 	}
 }
