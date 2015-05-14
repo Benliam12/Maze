@@ -49,27 +49,35 @@ public class Game
 	private void addPlayer(Player p)
 	{
 		if(!this.isPlayer(p)){
-			this.players.add(p);
-			p.getInventory().clear();
-			p.getInventory().setHeldItemSlot(0);
-			this.playerutils.giveDoor(p);
-			p.updateInventory();
-			p.setGameMode(GameMode.ADVENTURE);
-			Bukkit.getPluginManager().callEvent(new GameJoinEvent(this, p));
+			GameJoinEvent gameJoinEvent = new GameJoinEvent(this, p);
+			Bukkit.getPluginManager().callEvent(gameJoinEvent);
+			if(!gameJoinEvent.isCancelled())
+			{
+				this.players.add(p);
+				p.getInventory().clear();
+				p.getInventory().setHeldItemSlot(0);
+				this.playerutils.giveDoor(p);
+				p.updateInventory();
+				p.setGameMode(GameMode.ADVENTURE);
+			}
 		}
 	}
 	
-	public void removePlayer(Player p)
+	private void removePlayer(Player p)
 	{
 		if(this.isPlayer(p))
 		{
-			this.players.remove(p);
-			Maze.getHub().toHub(p);
-			p.getInventory().clear();
-			p.setLevel(0);
-			p.setExp((float) 0);
-			p.updateInventory();
-			Bukkit.getPluginManager().callEvent(new GameQuitEvent(this, p));
+			GameQuitEvent gameQuitEvent = new GameQuitEvent(this, p);
+			Bukkit.getPluginManager().callEvent(gameQuitEvent);
+			if(!gameQuitEvent.isCancelled())
+			{
+				this.players.remove(p);
+				Maze.getHub().toHub(p);
+				p.getInventory().clear();
+				p.setLevel(0);
+				p.setExp((float) 0);
+				p.updateInventory();		
+			}
 		}
 		
 		if(this.getState().equalsIgnoreCase("inprocess"))
@@ -296,20 +304,6 @@ public class Game
 		p.sendMessage(Maze.prefix + ChatColor.GREEN + "You finish the maze in : "+ this.getElapseTime(System.currentTimeMillis()) + " seconds");
 		this.removePlayer(p);
 		this.broadcast(Maze.prefix + ChatColor.GREEN + p.getName() + " has finish the maze in : "+ this.getElapseTime(System.currentTimeMillis()) + " seconds");
-		/*
-		try {
-			PreparedStatement sql = this.dataBase.getConnection().prepareStatement("INSERT INTO `maze_player_data` VALUES(0,?,?,?,?)");
-			sql.setString(1, p.getUniqueId().toString());
-			sql.setString(2, "" + System.currentTimeMillis());
-			sql.setString(3, "" + this.startTime);
-			sql.setString(4, "" + this.id);
-			sql.execute();
-			sql.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		*/
-		
 	}
 	/*
 	 * Getters

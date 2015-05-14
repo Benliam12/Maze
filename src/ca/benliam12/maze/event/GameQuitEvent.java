@@ -9,6 +9,7 @@ import ca.benliam12.maze.game.Game;
 public class GameQuitEvent extends Event{
 
 	private Player player;
+	private boolean cancelled = false;
 	private Game game;
 	private static final HandlerList handlers = new HandlerList();
 
@@ -24,6 +25,16 @@ public class GameQuitEvent extends Event{
 	{
 		this.player = player;
 		this.game = game;
+	}
+	
+	public void setCancelled(boolean cancelled)
+	{
+		this.cancelled = cancelled;
+	}
+	
+	public boolean isCancelled()
+	{
+		return this.cancelled;
 	}
 	
 	public Game getGame()
