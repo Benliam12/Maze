@@ -56,6 +56,8 @@ public class Maze extends JavaPlugin
 		SignManager.getInstance().load();
 		getCommand("maze").setExecutor(new Commands());
 		//DataBase.getInstance().connexion("localhost", "servers", "root", "", 3306);
+		
+	
 	}
 	
 	public void onDisable()

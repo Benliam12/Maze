@@ -119,7 +119,6 @@ public class Signs
 		else
 		{
 			SignManager.getInstance().deleteSign(this.ID);
-			//TODO : Remove sign from SignManager
 		}
 		
 	}
