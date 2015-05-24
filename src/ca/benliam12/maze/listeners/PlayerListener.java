@@ -89,6 +89,10 @@ public class PlayerListener implements Listener{
 		{
 			e.setCancelled(true);
 		}
+		if(e.getBlock().getType() == Material.SIGN || e.getBlock().getType() == Material.WALL_SIGN)
+		{
+			SignManager.getInstance().updateSigns();
+		}
 	}
 	
 	@EventHandler

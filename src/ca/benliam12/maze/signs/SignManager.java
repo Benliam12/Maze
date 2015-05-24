@@ -126,7 +126,7 @@ public class SignManager
 	{
 		if(this.getSign(id) != null)
 		{
-			this.signs.remove(id);
+			this.signs.remove(this.getSign(id));
 		}
 	}
 	
