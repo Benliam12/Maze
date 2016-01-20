@@ -65,9 +65,13 @@ public class SignManager
 						sm.addConfig("Signs_" + SignID, "plugins/Maze/signs");
 						Signs signs = new Signs(SignID);
 						this.signs.add(signs);
-						signs.update();
+						if(this.getSignByID(SignID) != null)
+						{
+							this.getSignByID(SignID).update();
+						}
+						
 					} catch(Exception ex){
-						Maze.log.info("Could load config with name : " + string);
+						Maze.log.info("Couldn't load config with name : " + string + "(" + ex.getMessage() + ")");
 					}
 				}
 			}
@@ -124,9 +128,9 @@ public class SignManager
 	 */
 	public void removeSign(int id)
 	{
-		if(this.getSign(id) != null)
+		if(this.getSignByID(id) != null)
 		{
-			this.signs.remove(this.getSign(id));
+			this.signs.remove(this.getSignByID(id));
 		}
 	}
 	

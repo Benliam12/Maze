@@ -10,6 +10,7 @@ import org.bukkit.block.Sign;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
+import ca.benliam12.maze.Maze;
 import ca.benliam12.maze.game.Game;
 import ca.benliam12.maze.game.GameManager;
 import ca.benliam12.maze.utils.SettingManager;
@@ -40,6 +41,7 @@ public class Signs
 			catch(Exception ex)
 			{
 				SignManager.getInstance().removeSign(this.ID);
+				Maze.log.info(ex.getMessage());
 			}
 		}
 		
@@ -50,10 +52,12 @@ public class Signs
 			double y = config.getDouble("Location.y");
 			double z = config.getDouble("Location.z");
 			this.location = new Location(w,x,y,z);
+			Maze.log.info("World : "+ w.getName() + " x " + x + " y " + y + " z " + z );
 		} 
 		else 
 		{
 			SignManager.getInstance().removeSign(this.ID);
+			Maze.log.info("No location config found with id : "+ this.ID);
 		}
 	}
 	
@@ -77,6 +81,14 @@ public class Signs
 	public void update()
 	{
 		Block block = this.location.getWorld().getBlockAt(this.location);
+		
+		if(block == null)
+		{
+			SignManager.getInstance().deleteSign(this.ID);
+			Maze.log.info("block null");
+			return;
+		}
+		
 		if(block.getType() == Material.SIGN || block.getType() == Material.WALL_SIGN)
 		{
 			Sign sign = (Sign) block.getState();
