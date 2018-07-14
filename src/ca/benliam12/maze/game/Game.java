@@ -72,7 +72,7 @@ public class Game
 			if(!gameQuitEvent.isCancelled())
 			{
 				this.players.remove(p);
-				Maze.getHub().toHub(p);
+				/*Maze.getHub().toHub(p);*/
 				p.getInventory().clear();
 				p.setLevel(0);
 				p.setExp((float) 0);
@@ -193,7 +193,7 @@ public class Game
 		for(Player player : this.players)
 		{
 			player.sendMessage(Maze.prefix + ChatColor.RED + "You game was stopped !");
-			Maze.getHub().toHub(player);
+			/*Maze.getHub().toHub(player);*/
 		}
 		this.countdown.stopCountDown();
 	}
@@ -383,8 +383,7 @@ public class Game
 	
 	/**
 	 * Get if the player is in the game
-	 * 
-	 * @param name Object player
+	 *
 	 * @return True / False
 	 */
 	public boolean isPlayer(Player p)

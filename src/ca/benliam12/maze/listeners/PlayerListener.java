@@ -53,12 +53,13 @@ public class PlayerListener implements Listener{
 	@EventHandler
 	public void onSignChange(SignChangeEvent e)
 	{
-		if(e.getLine(0).equalsIgnoreCase(ChatColor.BLACK + "maze"))
+		e.getPlayer().sendMessage("YUP");
+		if(e.getLine(0).equalsIgnoreCase("maze"))
 		{
 			try
 			{
 				e.setCancelled(true);
-				String signgame = e.getLine(1).replaceAll("§0", "");
+				String signgame = e.getLine(1);
 				int SignGameID = Integer.parseInt(signgame);
 				if(SignManager.getInstance().getSign(e.getBlock().getLocation()) != null)
 				{
@@ -121,7 +122,7 @@ public class PlayerListener implements Listener{
 			if(player.getItemInHand().getType() == Material.BARRIER)
 			{
 				if(player.getItemInHand().getItemMeta().getDisplayName() == null) return;
-				if(player.getItemInHand().getItemMeta().getDisplayName().equalsIgnoreCase("§6Exit"))
+				if(player.getItemInHand().getItemMeta().getDisplayName().equalsIgnoreCase("ï¿½6Exit"))
 				{
 					gm.removePlayer(player);
 					return;

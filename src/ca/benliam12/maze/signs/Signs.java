@@ -88,8 +88,7 @@ public class Signs
 			Maze.log.info("block null");
 			return;
 		}
-		
-		if(block.getType() == Material.SIGN || block.getType() == Material.WALL_SIGN)
+		if(block.getType() == Material.SIGN || block.getType() == Material.WALL_SIGN || block.getType() == Material.SIGN_POST)
 		{
 			Sign sign = (Sign) block.getState();
 			Game game = GameManager.getInstance().getGame(this.GameID);
