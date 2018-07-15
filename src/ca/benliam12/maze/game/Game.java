@@ -2,6 +2,7 @@ package ca.benliam12.maze.game;
 
 import java.util.ArrayList;
 
+import ca.benliam12.maze.utils.MessageUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -72,7 +73,7 @@ public class Game
 			if(!gameQuitEvent.isCancelled())
 			{
 				this.players.remove(p);
-				/*Maze.getHub().toHub(p);*/
+				Maze.getHub().toHub(p);
 				p.getInventory().clear();
 				p.setLevel(0);
 				p.setExp((float) 0);
@@ -197,8 +198,8 @@ public class Game
 		}
 		this.countdown.stopCountDown();
 	}
-	
-	/**
+
+    /**
 	 * Restart the game
 	 */
 	public void restart()
@@ -329,7 +330,7 @@ public class Game
 	}
 	
 	/**
-	 * Get The minimum amount of playe that can join the game
+	 * Get The minimum amount of player that have join the game
 	 * 
 	 * @return Minimum amount of player
 	 */

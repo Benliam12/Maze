@@ -1,17 +1,19 @@
 package ca.benliam12.maze.commands;
+import ca.benliam12.maze.utils.MessageUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
 import ca.benliam12.maze.Maze;
 import ca.benliam12.maze.game.GameManager;
 
 public class Commands implements CommandExecutor
 {
 	private GameManager gm = GameManager.getInstance();
+	private MessageUtils mu = MessageUtils.getInstance();
+
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label,String[] args)
 	{
@@ -41,7 +43,7 @@ public class Commands implements CommandExecutor
 					}
 					else
 					{
-						player.sendMessage(Maze.prefix + ChatColor.RED + "You dont' have the permission to perfom this command");
+						player.sendMessage(mu.getMessage("NoPerm"));
 					}
 					
 				} 
@@ -50,6 +52,7 @@ public class Commands implements CommandExecutor
 				{
 					gm.getGames(player);
 				}
+				// Force start Maze Game, Player has to be IG
 				else if(args[0].equalsIgnoreCase("start"))
 				{
 					if(gm.getGame(player) != null)
@@ -58,9 +61,13 @@ public class Commands implements CommandExecutor
 						gm.getGame(player).start();
 					}
 				}
+				else if (args[0].equalsIgnoreCase("help"))
+				{
+					player.sendMessage(Maze.prefix + ChatColor.RED + "Help section still on Development!");
+				}
 				else 
 				{
-					player.sendMessage(ChatColor.RED + "Usage : /maze <create/delete/join/quit> {args}");
+					player.sendMessage(mu.getMessage("BadCommand"));
 				}
 			} 
 			else if(args.length == 2)
@@ -86,7 +93,7 @@ public class Commands implements CommandExecutor
 					}
 					else
 					{
-						player.sendMessage(Maze.prefix + ChatColor.RED + "You dont' have the permission to perfom this command");
+						player.sendMessage(mu.getMessage("NoPerm"));
 					}
 				}
 				// Delete Command
@@ -100,7 +107,7 @@ public class Commands implements CommandExecutor
 						}
 						else
 						{
-							player.sendMessage(Maze.prefix + ChatColor.RED + "You dont' have the permission to perfom this command");
+							player.sendMessage(mu.getMessage("NoPerm"));
 						}
 						
 					}
@@ -120,7 +127,7 @@ public class Commands implements CommandExecutor
 						}
 						else
 						{
-							player.sendMessage(Maze.prefix + ChatColor.RED + "You dont' have the permission to perfom this command");
+							player.sendMessage(mu.getMessage("NoPerm"));
 						}
 				
 					}
@@ -140,13 +147,13 @@ public class Commands implements CommandExecutor
 						}
 						else
 						{
-							player.sendMessage(Maze.prefix + ChatColor.RED + "You dont' have the permission to perfom this command");
+							player.sendMessage(mu.getMessage("NoPerm"));
 						}
 						
 					}
 					catch(Exception ex)
 					{
-						player.sendMessage(Maze.prefix + ChatColor.RED + "Invalid ID");
+						player.sendMessage(mu.getMessage("InvalidID"));
 					}	
 				}
 				else if(args[0].equalsIgnoreCase("toggle"))
@@ -167,18 +174,18 @@ public class Commands implements CommandExecutor
 						}
 						else
 						{
-							player.sendMessage(Maze.prefix + ChatColor.RED + "You dont' have the permission to perfom this command");
+							player.sendMessage(mu.getMessage("NoPerm"));
 						}
 					
 					}
 					catch(Exception ex)
 					{
-						player.sendMessage(Maze.prefix + ChatColor.RED + "Invalid ID");
+						player.sendMessage(mu.getMessage("InvalidID"));
 					}	
 				}
 				else
 				{
-					player.sendMessage(ChatColor.RED + "Usage : /maze <create/delete/join/quit> {args}");
+					player.sendMessage(MessageUtils.getInstance().getMessage("BadCommand"));
 				}
 			}
 			else if(args.length == 3)
@@ -193,7 +200,7 @@ public class Commands implements CommandExecutor
 					}
 					catch(Exception ex)
 					{
-						player.sendMessage(Maze.prefix + ChatColor.RED + "Invalid ID");
+						player.sendMessage(mu.getMessage("InvalidID"));
 					}
 				}
 				else if(args[0].equalsIgnoreCase("setmaxplayer"))
@@ -206,7 +213,7 @@ public class Commands implements CommandExecutor
 					}
 					catch(Exception ex)
 					{
-						player.sendMessage(Maze.prefix + ChatColor.RED + "Invalid ID");
+						player.sendMessage(mu.getMessage("InvalidID"));
 					}
 				}
 				else if(args[0].equalsIgnoreCase("setname"))
@@ -218,7 +225,7 @@ public class Commands implements CommandExecutor
 					}
 					catch(Exception ex)
 					{
-						player.sendMessage(Maze.prefix + ChatColor.RED + "Invalid ID");
+						player.sendMessage(mu.getMessage("InvalidID"));
 					}
 				}
 				else if(args[0].equalsIgnoreCase("fjoin"))
@@ -233,7 +240,7 @@ public class Commands implements CommandExecutor
 						}
 						catch(Exception ex)
 						{
-							player.sendMessage(Maze.prefix + ChatColor.RED + "Invalid ID");
+							player.sendMessage(mu.getMessage("InvalidID"));
 						}
 					}
 					else
@@ -244,7 +251,7 @@ public class Commands implements CommandExecutor
 			}
 			else
 			{
-				player.sendMessage(ChatColor.RED + "Usage : /maze <create/delete/join/quit> {args}");
+				player.sendMessage(mu.getMessage("BadCommand"));
 			}
 		}
 		return false;

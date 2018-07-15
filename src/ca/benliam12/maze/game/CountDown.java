@@ -17,7 +17,7 @@ public class CountDown extends Thread
 	/**
 	 * Constructor
 	 * 
-	 * @param ID Game ID
+	 * @param game Game ID
 	 * @param time Duration of the timer in SECONDS
 	 */
 	public CountDown(Game game, int time, int[] wait)
@@ -107,3 +107,4 @@ public class CountDown extends Thread
 		}		
 	}
 }
+

@@ -3,6 +3,7 @@ package ca.benliam12.maze;
 import java.util.logging.Logger;
 
 import ca.benliam12.maze.debuggers.Debugger;
+import ca.benliam12.maze.utils.MessageUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.Plugin;
@@ -43,6 +44,7 @@ public class Maze extends JavaPlugin
 	
 	public void onEnable()
 	{
+		MessageUtils.getInstance().setup();
 		try
 		{
 			if (getHub() == null) {
