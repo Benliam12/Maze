@@ -100,8 +100,7 @@ public class Game
 	
 	private double getElapseTime(long time)
 	{
-		double rTime = (time - this.startTime) / 1000;
-		return rTime;
+		return ((time - this.startTime) / 1000);
 	}
 	
 	private void load()
@@ -193,7 +192,8 @@ public class Game
 		for(Player player : this.players)
 		{
 			player.sendMessage(Maze.prefix + ChatColor.RED + "You game was stopped !");
-			/*Maze.getHub().toHub(player);*/
+			Maze.getHub().toHub(player);
+			Maze.getHub().toHub(player);
 		}
 		this.countdown.stopCountDown();
 	}
@@ -543,7 +543,7 @@ public class Game
 	/**
 	 * Set a new waitroom location
 	 * 
-	 * @param spawn Location of the new waitroom
+	 * @param waitroom Location of the new waitroom
 	 */
 	public void setWaitRoom(Location waitroom)
 	{

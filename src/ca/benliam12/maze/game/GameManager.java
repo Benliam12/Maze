@@ -56,7 +56,10 @@ public class GameManager
 		}
 		this.cdt.end();
 	}
-	
+
+	/**
+	 * Load game in Config File
+	 */
 	public void loadGames()
 	{
 		if(sm.countFile("plugins/Maze/arenas") != 0)

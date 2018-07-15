@@ -2,6 +2,7 @@ package ca.benliam12.maze;
 
 import java.util.logging.Logger;
 
+import ca.benliam12.maze.debuggers.Debugger;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.Plugin;
@@ -14,6 +15,7 @@ import ca.benliam12.maze.listeners.PlayerListener;
 import ca.benliam12.maze.signs.SignManager;
 import ca.benliam12.maze.utils.SettingManager;
 
+import com.benliam12.hub.Hub;
 
 public class Maze extends JavaPlugin
 {
@@ -21,7 +23,7 @@ public class Maze extends JavaPlugin
 	public static Logger log = Logger.getLogger("minecraft");
 	private static Maze maze;
 
-	/*public static Hub getHub()
+	public static Hub getHub()
 	{
 		Plugin p = Bukkit.getServer().getPluginManager().getPlugin("Hub");
 		if(p instanceof Hub)
@@ -33,7 +35,7 @@ public class Maze extends JavaPlugin
 			return null;
 		}
 	}
-	*/
+
 	public static Maze getMaze()
 	{
 		return maze;
@@ -41,21 +43,33 @@ public class Maze extends JavaPlugin
 	
 	public void onEnable()
 	{
-		/*if(getHub() == null)
+		try
 		{
-			log.severe("You must have Hub install on your server !");
-			Bukkit.getPluginManager().disablePlugin(this);
-			return;
+			if (getHub() == null) {
+				log.severe("You must have Hub install on your server !");
+				Bukkit.getPluginManager().disablePlugin(this);
+				return;
+			}
+
+			maze = this;
+			//Debug On / Off option. For developers purpose only
+			Debugger.getInstance().set(true);
+
+			PluginManager pm = Bukkit.getPluginManager();
+			pm.registerEvents(new PlayerListener(), this);
+			SettingManager.getInstance().setup();
+			GameManager.getInstance().setup();
+			SignManager.getInstance().load();
+			getCommand("maze").setExecutor(new Commands());
+			//DataBase.getInstance().connexion("localhost", "servers", "root", "", 3306);
 		}
-		 */
-		maze = this;
-		PluginManager pm = Bukkit.getPluginManager();
-		pm.registerEvents(new PlayerListener(), this);
-		SettingManager.getInstance().setup();
-		GameManager.getInstance().setup();
-		SignManager.getInstance().load();
-		getCommand("maze").setExecutor(new Commands());
-		//DataBase.getInstance().connexion("localhost", "servers", "root", "", 3306);
+		catch (Exception exception)
+		{
+			if(Debugger.getInstance().isEnable())
+			{
+				exception.printStackTrace();
+			}
+		}
 	}
 	
 	public void onDisable()

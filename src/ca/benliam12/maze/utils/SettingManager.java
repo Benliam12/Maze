@@ -18,7 +18,7 @@ public class SettingManager
 	private HashMap<String,FileConfiguration> configs = new HashMap<>();
 	private HashMap<String, File> files = new HashMap<>();
 	
-	/*
+	/**
 	 * Private methods
 	 */
 	
@@ -155,9 +155,9 @@ public class SettingManager
 	/**
 	 * Method to remove a config from the list
 	 * 
-	 * @param name
+	 * @param name Name of the config
 	 */
-	public void removeConfig(String name){
+	private void removeConfig(String name){
 		if(this.isConfig(name))
 		{
 			configs.remove(name);
@@ -228,7 +228,7 @@ public class SettingManager
 	/**
 	 * Checking if file exists
 	 * 
-	 * @param name
+	 * @param name Name of file
 	 * @param directory Path to the file
 	 */
 	public boolean isFile(String name, String directory)
@@ -240,7 +240,7 @@ public class SettingManager
 	/**
 	 * Checking if file exists
 	 * 
-	 * @param file
+	 * @param file File
 	 */
 	public boolean isFile(File file)
 	{
@@ -250,7 +250,7 @@ public class SettingManager
 	/**
 	 * Getting a specific file
 	 * 
-	 * @param name
+	 * @param name Name of file
 	 * @param directory Path to the file
 	 * @return file
 	 */
@@ -279,7 +279,7 @@ public class SettingManager
 	/**
 	 * Listing all files in a specific directory
 	 * 
-	 * @param directory
+	 * @param directory Directory where files are
 	 * @return Array of file
 	 */
 	public ArrayList<File> listFile(String directory)
@@ -298,8 +298,8 @@ public class SettingManager
 	/**
 	 * Checking if a specific config has been registered
 	 * 
-	 * @param name
-	 * @return
+	 * @param name Config name
+	 * @return If Config is or nah
 	 */
 	public boolean isConfig(String name)
 	{

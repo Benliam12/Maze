@@ -9,7 +9,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 import ca.benliam12.maze.Maze;
 
-
 public class DataBase 
 {
 	private static DataBase db = new DataBase();
@@ -20,6 +19,13 @@ public class DataBase
 	}
 
 	private HashMap<String,Connection> connections = new HashMap<String, Connection>();
+
+	/**
+	 * Connexion method to connect to MySql Database
+	 *
+	 * @param name Path in YML config file to get to Database information
+	 * @return Boolean if connexion was successful
+     */
 	public synchronized boolean connexion(String name)
 	{		
 		FileConfiguration config = SettingManager.getInstance().getConfig("config");

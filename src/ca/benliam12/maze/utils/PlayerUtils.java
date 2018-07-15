@@ -1,11 +1,14 @@
 package ca.benliam12.maze.utils;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-
+/**
+ * Players methods that are useful
+ */
 public class PlayerUtils 
 {
 	private static PlayerUtils instance = new PlayerUtils();
@@ -22,10 +25,9 @@ public class PlayerUtils
 	
 	private ItemStack getDoor()
 	{
-
 		ItemStack door = new ItemStack(Material.BARRIER);
 		ItemMeta im = door.getItemMeta();
-		im.setDisplayName("§6Exit");
+		im.setDisplayName(ChatColor.BLACK +"Exit");
 		door.setItemMeta(im);
 		return door;
 	}

@@ -122,7 +122,7 @@ public class PlayerListener implements Listener{
 			if(player.getItemInHand().getType() == Material.BARRIER)
 			{
 				if(player.getItemInHand().getItemMeta().getDisplayName() == null) return;
-				if(player.getItemInHand().getItemMeta().getDisplayName().equalsIgnoreCase("�6Exit"))
+				if(player.getItemInHand().getItemMeta().getDisplayName().equalsIgnoreCase("Exit"))
 				{
 					gm.removePlayer(player);
 					return;
