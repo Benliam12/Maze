@@ -43,7 +43,7 @@ public class CountDown extends Thread
 	/**
 	 * Set a attached game
 	 * 
-	 * @param game Object Game
+	 * @param game Game Object
 	 */
 	public void setGame(Game game)
 	{

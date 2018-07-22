@@ -38,4 +38,12 @@ public class Debugger
     {
         return this.enable;
     }
+
+    public void sendMessage()
+    {
+        if(this.isEnable())
+        {
+
+        }
+    }
 }

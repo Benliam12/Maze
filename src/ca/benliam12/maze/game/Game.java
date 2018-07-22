@@ -1,6 +1,7 @@
 package ca.benliam12.maze.game;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import ca.benliam12.maze.utils.MessageUtils;
 import org.bukkit.Bukkit;
@@ -17,6 +18,8 @@ import ca.benliam12.maze.signs.SignManager;
 import ca.benliam12.maze.utils.PlayerUtils;
 import ca.benliam12.maze.utils.SettingManager;
 import ca.benliam12.maze.utils.Utils;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 public class Game 
 {
@@ -34,6 +37,7 @@ public class Game
 	private SettingManager sm = SettingManager.getInstance();
 	private SignManager signm = SignManager.getInstance();
 	private PlayerUtils playerutils = PlayerUtils.getInstance();
+	private HashMap<Player, ItemStack[]> playerInventory = new HashMap<>();
 	//private DataBase dataBase = DataBase.getInstance();
 	private Utils utils = Utils.getInstance();
 	private CountDown countdown;
@@ -55,11 +59,13 @@ public class Game
 			if(!gameJoinEvent.isCancelled())
 			{
 				this.players.add(p);
+				this.playerInventory.put(p,p.getInventory().getContents());
 				p.getInventory().clear();
 				p.getInventory().setHeldItemSlot(0);
 				this.playerutils.giveDoor(p);
 				p.updateInventory();
 				p.setGameMode(GameMode.ADVENTURE);
+
 			}
 		}
 	}
@@ -75,6 +81,7 @@ public class Game
 				this.players.remove(p);
 				Maze.getHub().toHub(p);
 				p.getInventory().clear();
+				p.getInventory().setContents(this.playerInventory.get(p));
 				p.setLevel(0);
 				p.setExp((float) 0);
 				p.updateInventory();		

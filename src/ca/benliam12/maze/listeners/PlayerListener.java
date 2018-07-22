@@ -1,5 +1,6 @@
 package ca.benliam12.maze.listeners;
 
+import ca.benliam12.maze.debuggers.DebugPlayerManager;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -12,6 +13,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
@@ -32,6 +34,14 @@ public class PlayerListener implements Listener{
 		{
 			gm.getGame(e.getPlayer()).leavePlayer(e.getPlayer());
 		}
+
+		DebugPlayerManager.getInstance().leavePlayer(e.getPlayer());
+	}
+
+	@EventHandler
+	public void OnPlayerJoin(PlayerJoinEvent e)
+	{
+		DebugPlayerManager.getInstance().addPlayer(e.getPlayer());
 	}
 	
 	@EventHandler
