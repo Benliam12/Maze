@@ -38,6 +38,7 @@ public class Game
 	private SignManager signm = SignManager.getInstance();
 	private PlayerUtils playerutils = PlayerUtils.getInstance();
 	private HashMap<Player, ItemStack[]> playerInventory = new HashMap<>();
+	private HashMap<Player, GameMode> playerGamemode = new HashMap<>();
 	//private DataBase dataBase = DataBase.getInstance();
 	private Utils utils = Utils.getInstance();
 	private CountDown countdown;
@@ -60,12 +61,13 @@ public class Game
 			{
 				this.players.add(p);
 				this.playerInventory.put(p,p.getInventory().getContents());
+				this.playerGamemode.put(p,p.getGameMode());
 				p.getInventory().clear();
 				p.getInventory().setHeldItemSlot(0);
 				this.playerutils.giveDoor(p);
 				p.updateInventory();
+				p.teleport(this.waitroom);
 				p.setGameMode(GameMode.ADVENTURE);
-
 			}
 		}
 	}
@@ -82,6 +84,7 @@ public class Game
 				Maze.getHub().toHub(p);
 				p.getInventory().clear();
 				p.getInventory().setContents(this.playerInventory.get(p));
+				p.setGameMode(this.playerGamemode.get(p));
 				p.setLevel(0);
 				p.setExp((float) 0);
 				p.updateInventory();		
@@ -201,7 +204,6 @@ public class Game
 		{
 			player.sendMessage(Maze.prefix + ChatColor.RED + "You game was stopped !");
 			Maze.getHub().toHub(player);
-			Maze.getHub().toHub(player);
 		}
 		this.countdown.stopCountDown();
 	}
@@ -233,7 +235,8 @@ public class Game
 			this.playerutils.giveDoor(player);
 			player.teleport(this.spawn);
 			player.setLevel(0);
-			player.setExp((float) 0); 
+			player.setExp((float) 0);
+			player.setGameMode(GameMode.ADVENTURE);
 		}
 	}
 	
@@ -282,7 +285,6 @@ public class Game
 			{
 				if(!this.isPlayer(p)){
 					this.addPlayer(p);
-					p.teleport(this.waitroom);
 					this.broadcast(Maze.prefix + ChatColor.YELLOW + p.getName() + " has join the game " + this.getPlayerAmount());
 					if(this.canStart())
 					{

@@ -63,7 +63,6 @@ public class PlayerListener implements Listener{
 	@EventHandler
 	public void onSignChange(SignChangeEvent e)
 	{
-		e.getPlayer().sendMessage("YUP");
 		if(e.getLine(0).equalsIgnoreCase("maze"))
 		{
 			try

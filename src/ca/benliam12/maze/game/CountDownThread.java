@@ -38,7 +38,6 @@ public class CountDownThread extends Thread
 			{
 				Maze.log.info("Error occur on main thread !");
 				Bukkit.getPluginManager().disablePlugin(Maze.getMaze());
-				//TODO : Remove thread
 			}
 		}
 	}

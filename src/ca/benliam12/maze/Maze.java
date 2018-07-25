@@ -2,6 +2,7 @@ package ca.benliam12.maze;
 
 import java.util.logging.Logger;
 
+import ca.benliam12.hub.Hub;
 import ca.benliam12.maze.debuggers.Debugger;
 import ca.benliam12.maze.utils.MessageUtils;
 import org.bukkit.Bukkit;
@@ -16,7 +17,6 @@ import ca.benliam12.maze.listeners.PlayerListener;
 import ca.benliam12.maze.signs.SignManager;
 import ca.benliam12.maze.utils.SettingManager;
 
-import com.benliam12.hub.Hub;
 
 public class Maze extends JavaPlugin
 {
