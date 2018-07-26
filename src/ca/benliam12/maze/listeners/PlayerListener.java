@@ -2,6 +2,7 @@ package ca.benliam12.maze.listeners;
 
 import ca.benliam12.maze.debuggers.DebugPlayerManager;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -12,6 +13,10 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.event.inventory.InventoryPickupItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -57,6 +62,11 @@ public class PlayerListener implements Listener{
 					game.finishPlayer(player);
 				}
 			}
+			if(player.getGameMode() != GameMode.ADVENTURE)
+			{
+				player.setGameMode(GameMode.ADVENTURE);
+			}
+
 		}
 	}
 

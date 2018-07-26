@@ -37,7 +37,7 @@ public class Commands implements CommandExecutor
 				// Create command
 				else if(args[0].equalsIgnoreCase("create"))
 				{
-					if(player.isOp())
+					if(player.hasPermission("maze.admin.create"))
 					{
 						gm.createGame(player,player.getLocation());
 					}
@@ -55,11 +55,19 @@ public class Commands implements CommandExecutor
 				// Force start Maze Game, Player has to be IG
 				else if(args[0].equalsIgnoreCase("start"))
 				{
-					if(gm.getGame(player) != null)
+					if(player.hasPermission("maze.admin.forcestart"))
 					{
-						gm.getGame(player).broadcast(Maze.prefix + ChatColor.GREEN + "Game has started !");
-						gm.getGame(player).start();
+						if(gm.getGame(player) != null)
+						{
+							gm.getGame(player).broadcast(Maze.prefix + ChatColor.GREEN + "Game has started !");
+							gm.getGame(player).start();
+						}
 					}
+					else
+					{
+						player.sendMessage(mu.getMessage("NoPerm"));
+					}
+
 				}
 				else if (args[0].equalsIgnoreCase("help"))
 				{
@@ -75,19 +83,26 @@ public class Commands implements CommandExecutor
 				// Join command
 				if(args[0].equalsIgnoreCase("join"))
 				{
-					try{
-						int GameID = Integer.parseInt(args[1]);
-						this.gm.addPlayer(GameID,player);
-					}
-					catch(Exception ex)
+					if(player.hasPermission("maze.join"))
 					{
-						player.sendMessage(Maze.prefix + ChatColor.RED + "Invalid ID");
+						try{
+							int GameID = Integer.parseInt(args[1]);
+							this.gm.addPlayer(GameID,player);
+						}
+						catch(Exception ex)
+						{
+							player.sendMessage(Maze.prefix + ChatColor.RED + "Invalid ID");
+						}
+					}
+					else
+					{
+						player.sendMessage(mu.getMessage("NoPerm"));
 					}
 				} 
 				// Create command
 				else if(args[0].equalsIgnoreCase("create"))
 				{
-					if(player.isOp())
+					if(player.hasPermission("maze.admin.create"))
 					{
 						gm.createGame(player,player.getLocation(),args[1]);
 					}
@@ -101,7 +116,7 @@ public class Commands implements CommandExecutor
 				{
 					try{
 						int GameID = Integer.parseInt(args[1]);
-						if(player.isOp())
+						if(player.hasPermission("maze.admin.delete"))
 						{
 							gm.deleteGame(player, GameID);
 						}
@@ -120,7 +135,7 @@ public class Commands implements CommandExecutor
 				{
 					try{
 						int GameID = Integer.parseInt(args[1]);
-						if(player.isOp())
+						if(player.hasPermission("maze.admin.edit"))
 						{
 							gm.getGame(GameID).setWaitRoom(player.getLocation());
 							player.sendMessage(Maze.prefix + ChatColor.GREEN + "Wait room set !");
@@ -140,7 +155,7 @@ public class Commands implements CommandExecutor
 				{
 					try{
 						int GameID = Integer.parseInt(args[1]);
-						if(player.isOp())
+						if(player.hasPermission("maze.admin.edit.spawn"))
 						{
 							gm.getGame(GameID).setSpawn(player.getLocation());
 							player.sendMessage(Maze.prefix + ChatColor.GREEN + "Spawn set !");
@@ -160,7 +175,7 @@ public class Commands implements CommandExecutor
 				{
 					try{
 						int GameID = Integer.parseInt(args[1]);
-						if(player.isOp())
+						if(player.hasPermission("maze.admin.edit.toggle"))
 						{
 							gm.getGame(GameID).toggle();
 							if(gm.getGame(GameID).isToggled())
@@ -192,51 +207,13 @@ public class Commands implements CommandExecutor
 			{
 				if(args[0].equalsIgnoreCase("setminplayer"))
 				{
-					try{
-						int GameID = Integer.parseInt(args[1]);
-						int minPlayer = Integer.parseInt(args[2]);
-						gm.getGame(GameID).setMinPlayer(minPlayer);
-						player.sendMessage(Maze.prefix + ChatColor.YELLOW + "Min player is now : " + ChatColor.GOLD + minPlayer);
-					}
-					catch(Exception ex)
-					{
-						player.sendMessage(mu.getMessage("InvalidID"));
-					}
-				}
-				else if(args[0].equalsIgnoreCase("setmaxplayer"))
-				{
-					try{
-						int GameID = Integer.parseInt(args[1]);
-						int maxPlayer = Integer.parseInt(args[2]);
-						gm.getGame(GameID).setMaxPlayer(maxPlayer);
-						player.sendMessage(Maze.prefix + ChatColor.YELLOW + "Max player is now : " + ChatColor.GOLD + maxPlayer);
-					}
-					catch(Exception ex)
-					{
-						player.sendMessage(mu.getMessage("InvalidID"));
-					}
-				}
-				else if(args[0].equalsIgnoreCase("setname"))
-				{
-					try{
-						int GameID = Integer.parseInt(args[1]);
-						gm.getGame(GameID).setName(args[2]);
-						player.sendMessage(Maze.prefix + ChatColor.YELLOW + "Name is now : " + ChatColor.GOLD + args[2]);
-					}
-					catch(Exception ex)
-					{
-						player.sendMessage(mu.getMessage("InvalidID"));
-					}
-				}
-				else if(args[0].equalsIgnoreCase("fjoin"))
-				{
-					Player target = Bukkit.getPlayer(args[1]);
-					if(target != null)
+					if(player.hasPermission("maze.admin.edit.minplayer"))
 					{
 						try{
-							int GameID = Integer.parseInt(args[2]);
-							this.gm.addPlayer(GameID,target);
-							player.sendMessage(Maze.prefix + ChatColor.GREEN + "Player : " + target.getName() + " was forced to join the game");
+							int GameID = Integer.parseInt(args[1]);
+							int minPlayer = Integer.parseInt(args[2]);
+							gm.getGame(GameID).setMinPlayer(minPlayer);
+							player.sendMessage(Maze.prefix + ChatColor.YELLOW + "Min player is now : " + ChatColor.GOLD + minPlayer);
 						}
 						catch(Exception ex)
 						{
@@ -245,8 +222,78 @@ public class Commands implements CommandExecutor
 					}
 					else
 					{
-						player.sendMessage(Maze.prefix + ChatColor.RED + "This player is not online !");
+						player.sendMessage(mu.getMessage("noPerm"));
 					}
+
+				}
+				else if(args[0].equalsIgnoreCase("setmaxplayer"))
+				{
+					if(player.hasPermission("maze.admin.edit.maxplayer"))
+					{
+						try{
+							int GameID = Integer.parseInt(args[1]);
+							int maxPlayer = Integer.parseInt(args[2]);
+							gm.getGame(GameID).setMaxPlayer(maxPlayer);
+							player.sendMessage(Maze.prefix + ChatColor.YELLOW + "Max player is now : " + ChatColor.GOLD + maxPlayer);
+						}
+						catch(Exception ex)
+						{
+							player.sendMessage(mu.getMessage("InvalidID"));
+						}
+					}
+					else
+					{
+						player.sendMessage(mu.getMessage("noPerm"));
+					}
+
+				}
+				else if(args[0].equalsIgnoreCase("setname"))
+				{
+					if(player.hasPermission("maze.admin.edit.name"))
+					{
+						try{
+							int GameID = Integer.parseInt(args[1]);
+							gm.getGame(GameID).setName(args[2]);
+							player.sendMessage(Maze.prefix + ChatColor.YELLOW + "Name is now : " + ChatColor.GOLD + args[2]);
+						}
+						catch(Exception ex)
+						{
+							player.sendMessage(mu.getMessage("InvalidID"));
+						}
+					}
+					else
+					{
+						player.sendMessage(mu.getMessage("noPerm"));
+					}
+
+				}
+				else if(args[0].equalsIgnoreCase("fjoin"))
+				{
+					if(player.hasPermission("maze.admin.forcejoin"))
+					{
+						Player target = Bukkit.getPlayer(args[1]);
+						if(target != null)
+						{
+							try{
+								int GameID = Integer.parseInt(args[2]);
+								this.gm.addPlayer(GameID,target);
+								player.sendMessage(Maze.prefix + ChatColor.GREEN + "Player : " + target.getName() + " was forced to join the game");
+							}
+							catch(Exception ex)
+							{
+								player.sendMessage(mu.getMessage("InvalidID"));
+							}
+						}
+						else
+						{
+							player.sendMessage(Maze.prefix + ChatColor.RED + "This player is not online !");
+						}
+					}
+					else
+					{
+						player.sendMessage(mu.getMessage("noPerm"));
+					}
+
 				}
 			}
 			else

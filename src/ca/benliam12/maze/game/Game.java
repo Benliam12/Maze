@@ -236,7 +236,6 @@ public class Game
 			player.teleport(this.spawn);
 			player.setLevel(0);
 			player.setExp((float) 0);
-			player.setGameMode(GameMode.ADVENTURE);
 		}
 	}
 	
@@ -252,6 +251,7 @@ public class Game
 			player.sendMessage(message);
 		}
 	}
+
 	/*
 	 * Player interactions
 	 */

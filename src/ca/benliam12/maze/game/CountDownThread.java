@@ -14,7 +14,7 @@ public class CountDownThread extends Thread
 		this.running = false;
 	}
 	
-	public void run()
+	public synchronized void run()
 	{
 		while(this.running)
 		{
@@ -32,7 +32,7 @@ public class CountDownThread extends Thread
 			}
 			try
 			{
-				Thread.sleep(1000);
+				sleep(1000);
 			}
 			catch(InterruptedException ex)
 			{

@@ -3,14 +3,16 @@ package ca.benliam12.maze.game;
 import java.util.ArrayList;
 
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
 import ca.benliam12.maze.Maze;
 
-public class CountDown extends Thread
+public class CountDown
 {
 	private Game game;
 	private int time;
+	private int gamemodeChecker = 3;
 	private ArrayList<Integer> wait = new ArrayList<>();
 	private boolean started = false;
 	
@@ -82,7 +84,7 @@ public class CountDown extends Thread
 		this.game = game;
 	}
 	
-	public void go()
+	public synchronized void go()
 	{
 		if(this.game.canStart() && this.game.getState().equalsIgnoreCase("lobby") && this.started)
 		{
@@ -104,7 +106,7 @@ public class CountDown extends Thread
 				
 				this.time--;	
 			}
-		}		
+		}
 	}
 }
 
