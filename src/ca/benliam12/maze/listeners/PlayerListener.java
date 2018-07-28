@@ -62,11 +62,6 @@ public class PlayerListener implements Listener{
 					game.finishPlayer(player);
 				}
 			}
-			if(player.getGameMode() != GameMode.ADVENTURE)
-			{
-				player.setGameMode(GameMode.ADVENTURE);
-			}
-
 		}
 	}
 

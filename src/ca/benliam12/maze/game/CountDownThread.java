@@ -4,7 +4,7 @@ import org.bukkit.Bukkit;
 
 import ca.benliam12.maze.Maze;
 
-public class CountDownThread extends Thread
+public class CountDownThread implements Runnable
 {
 	private boolean running = true;
 	private GameManager gm = GameManager.getInstance();
@@ -14,30 +14,30 @@ public class CountDownThread extends Thread
 		this.running = false;
 	}
 	
-	public synchronized void run()
+	public void run()
 	{
-		while(this.running)
+		if(this.running)
 		{
-			for(Game game : gm.getGames())
-			{
-				if(game.getCountDown() != null)
-				{
-					game.getCountDown().go();
-				}
-				else 
-				{
-					int[] i = {30,20,15,10,5,4,3,2,1};
-					game.setCountDown(new CountDown(game, 30, i));
-				}
-			}
 			try
 			{
-				sleep(1000);
+				for(Game game : gm.getGames())
+				{
+					if(game.getCountDown() != null)
+					{
+						game.checkGameMode();
+						game.getCountDown().go();
+					}
+					else
+					{
+						int[] i = {30,20,15,10,5,4,3,2,1};
+						game.setCountDown(new CountDown(game, 30, i));
+					}
+				}
 			}
-			catch(InterruptedException ex)
+			catch(Exception e)
 			{
-				Maze.log.info("Error occur on main thread !");
-				Bukkit.getPluginManager().disablePlugin(Maze.getMaze());
+				e.printStackTrace();
+				Bukkit.getServer().getPluginManager().disablePlugin(Maze.getMaze());
 			}
 		}
 	}

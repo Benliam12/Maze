@@ -2,15 +2,12 @@ package ca.benliam12.maze.game;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import ca.benliam12.maze.utils.MessageUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-
 import ca.benliam12.maze.Maze;
 import ca.benliam12.maze.event.GameJoinEvent;
 import ca.benliam12.maze.event.GameQuitEvent;
@@ -18,7 +15,6 @@ import ca.benliam12.maze.signs.SignManager;
 import ca.benliam12.maze.utils.PlayerUtils;
 import ca.benliam12.maze.utils.SettingManager;
 import ca.benliam12.maze.utils.Utils;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 public class Game 
@@ -33,7 +29,7 @@ public class Game
 	private String name;
 	private boolean isToggled;
 	private FileConfiguration config;
-	private ArrayList<Player> players = new ArrayList<Player>();
+	private ArrayList<Player> players = new ArrayList<>();
 	private SettingManager sm = SettingManager.getInstance();
 	private SignManager signm = SignManager.getInstance();
 	private PlayerUtils playerutils = PlayerUtils.getInstance();
@@ -109,9 +105,9 @@ public class Game
 		signm.updateSign(this.id);
 	}
 	
-	private double getElapseTime(long time)
+	private int getElapseTime(long time)
 	{
-		return ((time - this.startTime) / 1000);
+		return (int) ((time - this.startTime) / 1000);
 	}
 	
 	private void load()
@@ -303,7 +299,18 @@ public class Game
 			p.sendMessage(Maze.prefix + ChatColor.RED + "This game is full");
 		}
 	}
-	
+
+	public void checkGameMode()
+	{
+		for(Player player : this.players)
+		{
+			if(player.getGameMode() != GameMode.ADVENTURE)
+			{
+				player.setGameMode(GameMode.ADVENTURE);
+			}
+		}
+	}
+
 	/**
 	 * When player finish the game
 	 * 
