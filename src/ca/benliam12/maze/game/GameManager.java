@@ -3,6 +3,7 @@ package ca.benliam12.maze.game;
 import java.io.File;
 import java.util.ArrayList;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -19,6 +20,7 @@ public class GameManager
 	private SignManager signm = SignManager.getInstance();
 	private Thread thread;
 	private CountDownThread cdt;
+	private int bukkitTask;
 	
 	private int nextInt()
 	{
@@ -44,6 +46,7 @@ public class GameManager
 	{
 		this.loadGames();
 		this.cdt = new CountDownThread();
+		this.bukkitTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(Maze.getMaze(), this.cdt, 0, 20);
 		this.thread = new Thread(this.cdt);
 		this.thread.start();
 	}
@@ -55,6 +58,8 @@ public class GameManager
 			game.stop();
 		}
 		this.cdt.end();
+
+		Bukkit.getScheduler().cancelTask(this.bukkitTask);
 	}
 
 	/**
