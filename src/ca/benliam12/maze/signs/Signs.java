@@ -52,7 +52,6 @@ public class Signs
 			double y = config.getDouble("Location.y");
 			double z = config.getDouble("Location.z");
 			this.location = new Location(w,x,y,z);
-			Maze.log.info("World : "+ w.getName() + " x " + x + " y " + y + " z " + z );
 		} 
 		else 
 		{

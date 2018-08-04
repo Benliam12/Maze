@@ -5,7 +5,7 @@ author : Benliam12
 softdepend: [Multiverse-Core]
 commands :
   maze :
-   description : Main command
+   description: Main command
 
 permissions:
   maze.*:
@@ -39,7 +39,6 @@ permissions:
       maze.admin.edit.minplayer: true
       maze.admin.edit.maxplayer: true
       maze.admin.edit.toggle: true
-
 
   maze.admin.edit.waitroom:
     default: false

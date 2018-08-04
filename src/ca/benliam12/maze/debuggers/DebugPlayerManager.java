@@ -2,6 +2,7 @@ package ca.benliam12.maze.debuggers;
 
 import java.util.ArrayList;
 
+import ca.benliam12.maze.Maze;
 import ca.benliam12.maze.exception.DebugException;
 import org.bukkit.entity.Player;
 
@@ -19,6 +20,10 @@ public class DebugPlayerManager
         return this.players;
     }
 
+    public void setup()
+    {
+
+    }
     /**
      * Get a player using Player Object
      * @param player Player Object
@@ -59,7 +64,14 @@ public class DebugPlayerManager
 
     public void leavePlayer(Player player)
     {
-
+        try
+        {
+            this.players.remove(this.getPlayer(player));
+        }
+        catch(DebugException e)
+        {
+            Maze.log.info(e.getMessage());
+        }
     }
 
     public boolean isPlayer(Player player)

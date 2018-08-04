@@ -30,6 +30,7 @@ public class Debugger
         if(enable)
         {
             this.enable = enable;
+            DebugPlayerManager.getInstance().setup();
         }
         this.enable = false;
     }

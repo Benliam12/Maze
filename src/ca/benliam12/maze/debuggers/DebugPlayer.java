@@ -7,7 +7,6 @@ import org.bukkit.entity.Player;
  */
 public class DebugPlayer
 {
-
     private Player player;
     private boolean hasDebugAccess = false;
 
@@ -19,7 +18,6 @@ public class DebugPlayer
             this.hasDebugAccess = true;
         }
     }
-
     public boolean hasDebugAccess() { return this.hasDebugAccess;}
     public Player getPlayer(){return this.player;}
 }
