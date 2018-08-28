@@ -27,6 +27,7 @@ import ca.benliam12.maze.Maze;
 import ca.benliam12.maze.game.Game;
 import ca.benliam12.maze.game.GameManager;
 import ca.benliam12.maze.signs.SignManager;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class PlayerListener implements Listener{
 	
@@ -125,23 +126,23 @@ public class PlayerListener implements Listener{
 	{
 		SignManager signm = SignManager.getInstance();
 		Player player = e.getPlayer();
+
 		if(e.getAction() == Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.RIGHT_CLICK_AIR)
 		{
-			Block block = e.getClickedBlock();
-			
-			ItemStack inHand = player.getItemInHand();
-			
-			if(inHand == null) return;
-			
-			if(player.getItemInHand().getType() == Material.BARRIER)
+			ItemStack itemStack = player.getItemInHand();
+			if(itemStack.hasItemMeta())
 			{
-				if(player.getItemInHand().getItemMeta().getDisplayName() == null) return;
-				if(player.getItemInHand().getItemMeta().getDisplayName().equalsIgnoreCase("Exit"))
+				if(itemStack.getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.BLACK + "Exit") && itemStack.getType() == Material.BARRIER)
 				{
-					gm.removePlayer(player);
-					return;
+					if(GameManager.getInstance().getGame(player) != null)
+					{
+						GameManager.getInstance().removePlayer(player);
+						return;
+					}
 				}
 			}
+
+			Block block = e.getClickedBlock();
 			
 			if(block == null) return;
 			
