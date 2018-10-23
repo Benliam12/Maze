@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import ca.benliam12.maze.Maze;
 import ca.benliam12.maze.signs.SignManager;
 import ca.benliam12.maze.utils.SettingManager;
+
 public class GameManager
 {
 	private ArrayList<Game> games = new ArrayList<>();

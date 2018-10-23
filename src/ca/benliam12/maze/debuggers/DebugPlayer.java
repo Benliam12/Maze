@@ -18,6 +18,7 @@ public class DebugPlayer
             this.hasDebugAccess = true;
         }
     }
+
     public boolean hasDebugAccess() { return this.hasDebugAccess;}
     public Player getPlayer(){return this.player;}
 }

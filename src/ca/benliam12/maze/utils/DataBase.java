@@ -48,11 +48,7 @@ public class DataBase
 		    Maze.log.info(e.getMessage());
 		    return false;
 		}
-		catch ( NullPointerException e)
-		{
-			return false;
-		}
-		catch ( Exception e )
+		catch ( Exception e)
 		{
 			return false;
 		}

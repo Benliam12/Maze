@@ -42,12 +42,17 @@ public class Game
 	/*
 	 * Private methods
 	 */
-	
+
+	/**
+	 * Return chat info for the class use.
+	 *
+	 * @return [playerInGame/maxPlayers] for the current game
+	 */
 	private String getPlayerAmount()
 	{
 		return ChatColor.GRAY  + "[" + ChatColor.RED + this.players.size() + ChatColor.GRAY + "/" + ChatColor.RED + this.maxPlayer + ChatColor.GRAY + "]";
 	}
-	
+
 	private void addPlayer(Player p)
 	{
 		if(!this.isPlayer(p)){
@@ -187,7 +192,7 @@ public class Game
 			this.state = "off";
 			Maze.log.info("Empty config for game : "+ id);
 		}
-		int[] i = {1,2,3,4,5,10,15,20,30};
+		int[] i = {1,2,3,4,5,10,15,20,30}; //When countdown is showing the remaining time.
 		this.countdown = new CountDown(this, 30, i);
 	}
 	
@@ -484,14 +489,7 @@ public class Game
 	 */
 	public void toggle()
 	{
-		if(this.isToggled)
-		{
-			this.isToggled = false;
-		} 
-		else
-		{
-			this.isToggled = true;
-		}
+		this.isToggled = !isToggled;
 		this.config.set("infos.istoggled", this.isToggled);
 		sm.saveConfig("Arena_" + this.id, this.config);
 		signm.updateSign(this.id);

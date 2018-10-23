@@ -45,7 +45,6 @@ public class Commands implements CommandExecutor
 					{
 						player.sendMessage(mu.getMessage("NoPerm"));
 					}
-					
 				} 
 				// List game command
 				else if(args[0].equalsIgnoreCase("list"))
