@@ -128,12 +128,12 @@ public class GameManager
 		sm.createFile("Arena_" + id + ".yml", "plugins/Maze/arenas");
 		sm.addConfig("Arena_" + id, "plugins/Maze/arenas");
 		Game game = new Game(id);
-		game.setName(Integer.toString(id));
-		game.setMaxPlayer(5);
-		game.setMinPlayer(1);
-		game.setSpawn(spawn);
-		game.setWaitRoom(spawn);
-		game.restart();
+		game.setName(Integer.toString(id))
+			.setMaxPlayer(5)
+			.setMinPlayer(1)
+			.setSpawn(spawn)
+			.setWaitRoom(spawn)
+			.restart();
 		this.addGame(game);
 		signm.updateSign(id);
 		player.sendMessage(Maze.prefix + ChatColor.GREEN + "Game created ! (Id : " + id + ")");

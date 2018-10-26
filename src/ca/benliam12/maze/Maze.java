@@ -25,7 +25,9 @@ import ca.benliam12.maze.utils.SettingManager;
 public class Maze extends JavaPlugin
 {
 	public static String prefix = ChatColor.GOLD + "[" + ChatColor.YELLOW + "Maze" + ChatColor.GOLD + "] ";
+	public static String loggerPrefix = "[Maze] ";
 	public static Logger log = Logger.getLogger("minecraft");
+	public Logger logger = log;
 	private static Maze maze;
 
 	private boolean setupEconomy()
@@ -102,5 +104,21 @@ public class Maze extends JavaPlugin
 	{
 		GameManager.getInstance().stop();
 		SettingManager.getInstance().clear();
+	}
+
+	public void Logger(String message)
+	{
+		this.Logger(message,1);
+	}
+	public void Logger(String message, int importance)
+	{
+		switch (importance)
+		{
+			case 1: log.info(loggerPrefix + message); break;
+			case 2: log.warning(loggerPrefix + message); break;
+			case 3: log.severe(loggerPrefix + message); break;
+
+			default: log.info(loggerPrefix + message + " [ERROR] IMPORTANCE LEVEL COULDN'T BE FOUND! IMPORTANCE : " + importance); break;
+		}
 	}
 }

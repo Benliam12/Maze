@@ -1,6 +1,9 @@
 package ca.benliam12.maze.utils;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,11 +15,17 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import ca.benliam12.maze.Maze;
 
 
+/**
+ * Configuration file class<
+ * @author Benliam12
+ * @version unknown
+ */
 public class SettingManager 
 {
 	private static SettingManager instance = new SettingManager();
 	private HashMap<String,FileConfiguration> configs = new HashMap<>();
 	private HashMap<String, File> files = new HashMap<>();
+	private Maze plugin = Maze.getMaze();
 	
 	/**
 	 * Private methods
@@ -85,11 +94,24 @@ public class SettingManager
 		createDirectory("plugins/Maze");
 		createDirectory("plugins/Maze/arenas");
 		createDirectory("plugins/Maze/signs");
-		addConfig("config","plugins/Maze");
+		this.loadDefaultConfig("plugins/Maze");
 	}
 	/*
 	 * Configuration interactions
 	 */
+
+	private void loadDefaultConfig(String directory)
+	{
+		if(isFile("config.yml", directory))
+		{
+			plugin.Logger("Skipping copying default configuration file because already there!");
+			addConfig("config","plugins/Maze");
+			return;
+		}
+		this.copyDefaultConfigs("config.yml", this.getFile("config.yml", directory));
+		plugin.Logger("Copying new config file to the server...");
+		addConfig("config","plugins/Maze");
+	}
 	/**
 	 * Method to create directories
 	 * 
@@ -144,11 +166,11 @@ public class SettingManager
 			FileConfiguration config = YamlConfiguration.loadConfiguration(this.getFile(name + ".yml",directory));
 			addFile(name,this.getFile(name + ".yml",directory));
 			configs.put(name,config);
-			Maze.log.info("Added config with name : " + name);
+			plugin.Logger("Added config with name : " + name);
 		} 
 		else 
 		{
-			Maze.log.info("Couldn't add config with name : " + name);
+			plugin.Logger("Couldn't add config with name : " + name);
 		}
 	}
 	
@@ -162,9 +184,9 @@ public class SettingManager
 		{
 			configs.remove(name);
 			removeFile(name);
-			Maze.log.info("Removed config : " + name);
+			plugin.Logger("Removed config : " + name);
 		} else {
-			Maze.log.info("Couldn't remove config with name : " + name);
+			plugin.Logger("Couldn't remove config with name : " + name);
 		}
 	}
 	
@@ -200,7 +222,7 @@ public class SettingManager
 		}
 		files.clear();
 		configs.clear();
-		Maze.log.info("Removed all Files & Configs");
+		plugin.Logger("Removed all Files & Configs");
 	}
 
 
@@ -220,7 +242,7 @@ public class SettingManager
 		} 
 		else 
 		{
-			Maze.log.info("Config null");
+			plugin.Logger("Config null (In save Config method, please contact administrator if you don't know what this means)");
 		}
 	}
 
@@ -248,7 +270,7 @@ public class SettingManager
 	}
 	
 	/**
-	 * Getting a specific file
+	 * Getting a specific file ( Doesn't creates it!)
 	 * 
 	 * @param name Name of file
 	 * @param directory Path to the file
@@ -256,19 +278,7 @@ public class SettingManager
 	 */
 	public File getFile(String name, String directory)
 	{
-		File f = new File(directory,name);
-		if(!f.exists())
-		{
-			try
-			{
-				f.createNewFile();
-			} 
-			catch (Exception ex)
-			{
-				ex.printStackTrace();
-			}
-		}
-		return f;
+		return new File(directory,name);
 	}
 	
 	public File getFile(String name)
@@ -367,4 +377,30 @@ public class SettingManager
 			return 0;
 		}
 	}
+
+	/**
+	 * Copy a file from the ressource (In Jar file) to the actual server)
+	 * @param ressourceFile Name of the file (ex: config.yml)
+	 * @param targetFile File to transfer the data
+	 */
+	private void copyDefaultConfigs(String ressourceFile, File targetFile)
+	{
+		try {
+			InputStream ressource = Maze.getMaze().getResource(ressourceFile);
+			OutputStream out = new FileOutputStream(targetFile);
+			byte[] buf = new byte[1024];
+			int len;
+			while((len=ressource.read(buf))>0) // Copying the data to the new file
+			{
+				out.write(buf,0,len);
+			}
+			out.close();
+			ressource.close();
+		} catch(Exception ex)
+		{
+			plugin.Logger("TargetFile for : " + ressourceFile + " might not exists!");
+		}
+	}
+
+
 }

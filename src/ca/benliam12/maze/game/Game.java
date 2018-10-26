@@ -115,7 +115,7 @@ public class Game
 		return (int) ((time - this.startTime) / 1000);
 	}
 	
-	private void load()
+	private Game load()
 	{
 		if(this.config.get("spawn") != null)
 		{
@@ -124,7 +124,7 @@ public class Game
 		else 
 		{
 			this.state = "off";
-			return;
+			return this;
 		}
 		
 		if(this.config.get("waitroom") != null)
@@ -134,7 +134,7 @@ public class Game
 		else
 		{
 			this.state = "off";
-			return;
+			return this;
 		}
 		
 		if(this.config.get("infos.maxPlayer") != null){
@@ -143,7 +143,7 @@ public class Game
 		else 
 		{
 			this.state = "off";
-			return;
+			return this;
 		}
 		
 		if(this.config.get("infos.minPlayer") != null)
@@ -153,7 +153,7 @@ public class Game
 		else 
 		{
 			this.state = "off";
-			return;
+			return this;
 		}
 		
 		if(this.config.get("infos.name") != null)
@@ -162,7 +162,7 @@ public class Game
 		}
 		else {
 			this.state = "off";
-			return;
+			return this;
 		}
 		
 		if(this.config.get("infos.istoggled") != null)
@@ -173,7 +173,8 @@ public class Game
 		{
 			this.isToggled = false;
 		}
-		
+
+		return this;
 	}
 	
 	/*
@@ -186,8 +187,8 @@ public class Game
 		this.id = id;
 		if(this.config != null)
 		{
-			this.setState("lobby");
-			this.load();
+			this.setState("lobby")
+				.load();
 		} else {
 			this.state = "off";
 			Maze.log.info("Empty config for game : "+ id);
@@ -212,7 +213,7 @@ public class Game
     /**
 	 * Restart the game
 	 */
-	public void restart()
+	public Game restart()
 	{	
 		this.state = "lobby";
 		for(Player player : this.players)
@@ -221,12 +222,14 @@ public class Game
 		}
 		this.countdown.restartCountDown(this);
 		this.load();
+
+		return this;
 	}
 	
 	/**
 	 * Start the game
 	 */
-	public void start()
+	public Game start()
 	{
 		this.startTime = System.currentTimeMillis();
 		this.state = "inprocess";
@@ -238,6 +241,8 @@ public class Game
 			player.setLevel(0);
 			player.setExp((float) 0);
 		}
+
+		return this;
 	}
 	
 	/**
@@ -245,12 +250,14 @@ public class Game
 	 * 
 	 * @param message Message to send
 	 */
-	public void broadcast(String message)
+	public Game broadcast(String message)
 	{
 		for(Player player : this.players)
 		{
 			player.sendMessage(message);
 		}
+
+		return this;
 	}
 
 	/*
@@ -261,11 +268,13 @@ public class Game
 	 * 
 	 * @param p Object player
 	 */
-	public void leavePlayer(Player p)
+	public Game leavePlayer(Player p)
 	{	
 		p.sendMessage(Maze.prefix + ChatColor.YELLOW + "You left the game !");
 		this.removePlayer(p);
 		this.broadcast(Maze.prefix + ChatColor.YELLOW + p.getName() + " has left the game " + this.getPlayerAmount());
+
+		return this;
 	}
 	
 	/**
@@ -273,12 +282,12 @@ public class Game
 	 * 
 	 * @param p Object Player
 	 */
-	public void joinPlayer(Player p)
+	public Game joinPlayer(Player p)
 	{
 		if(this.getState().equalsIgnoreCase("off"))
 		{
 			p.sendMessage(Maze.prefix + ChatColor.RED + ChatColor.BOLD + "This game is offline !");
-			return;
+			return this;
 		}
 		if(!this.isfull())
 		{
@@ -303,9 +312,11 @@ public class Game
 		{
 			p.sendMessage(Maze.prefix + ChatColor.RED + "This game is full");
 		}
+
+		return this;
 	}
 
-	public void checkGameMode()
+	public Game checkGameMode()
 	{
 		for(Player player : this.players)
 		{
@@ -314,6 +325,8 @@ public class Game
 				player.setGameMode(GameMode.ADVENTURE);
 			}
 		}
+
+		return this;
 	}
 
 	/**
@@ -321,11 +334,13 @@ public class Game
 	 * 
 	 * @param p Object Player
 	 */
-	public void finishPlayer(Player p)
+	public Game finishPlayer(Player p)
 	{
 		p.sendMessage(Maze.prefix + ChatColor.GREEN + "You finish the maze in : "+ this.getElapseTime(System.currentTimeMillis()) + " seconds");
 		this.removePlayer(p);
 		this.broadcast(Maze.prefix + ChatColor.GREEN + p.getName() + " has finish the maze in : "+ this.getElapseTime(System.currentTimeMillis()) + " seconds");
+
+		return this;
 	}
 	/*
 	 * Getters
@@ -480,19 +495,22 @@ public class Game
 	 * Setters
 	 */
 	
-	public void setCountDown(CountDown countdown)
+	public Game setCountDown(CountDown countdown)
 	{
 		this.countdown = countdown;
+		return this;
 	}
 	/**
 	 * Toggle the Game (To true if false and to false if true)
 	 */
-	public void toggle()
+	public Game toggle()
 	{
 		this.isToggled = !isToggled;
 		this.config.set("infos.istoggled", this.isToggled);
 		sm.saveConfig("Arena_" + this.id, this.config);
 		signm.updateSign(this.id);
+
+		return this;
 	}
 	
 	/**
@@ -500,10 +518,12 @@ public class Game
 	 * 
 	 * @param state New state of the game
 	 */
-	public void setState(String state)
+	public Game setState(String state)
 	{
 		this.state = state;
 		signm.updateSign(this.id);
+
+		return this;
 	}
 	
 	/**
@@ -511,12 +531,14 @@ public class Game
 	 * 
 	 * @param name New name of the game
 	 */
-	public void setName(String name)
+	public Game setName(String name)
 	{
 		this.name = name;
 		this.config.set("infos.name", name);
 		sm.saveConfig("Arena_" + this.id, this.config);
 		signm.updateSign(this.id);
+
+		return this;
 	}
 	
 	/**
@@ -524,12 +546,14 @@ public class Game
 	 * 
 	 * @param maxPlayer New max amount of player
 	 */
-	public void setMaxPlayer(int maxPlayer)
+	public Game setMaxPlayer(int maxPlayer)
 	{
 		this.maxPlayer = maxPlayer;
 		this.config.set("infos.maxPlayer", maxPlayer);
 		sm.saveConfig("Arena_" + this.id, this.config);
 		signm.updateSign(this.id);
+
+		return this;
 	}
 	
 	/**
@@ -537,11 +561,13 @@ public class Game
 	 * 
 	 * @param minPlayer New min amount of player
 	 */
-	public void setMinPlayer(int minPlayer)
+	public Game setMinPlayer(int minPlayer)
 	{
 		this.minPlayer = minPlayer;
 		this.config.set("infos.minPlayer", minPlayer);
 		sm.saveConfig("Arena_" + this.id, this.config);
+
+		return this;
 	}
 	
 	/**
@@ -549,10 +575,12 @@ public class Game
 	 * 
 	 * @param spawn Location of the new spawn
 	 */
-	public void setSpawn(Location spawn)
+	public Game setSpawn(Location spawn)
 	{
 		this.spawn = spawn;
 		this.utils.setConfigLocation("spawn", "Arena_" + this.id, this.config, spawn);
+
+		return this;
 	}
 	
 	/**
@@ -560,9 +588,11 @@ public class Game
 	 * 
 	 * @param waitroom Location of the new waitroom
 	 */
-	public void setWaitRoom(Location waitroom)
+	public Game setWaitRoom(Location waitroom)
 	{
 		this.waitroom = waitroom;
 		this.utils.setConfigLocation("waitroom", "Arena_" + this.id, this.config, waitroom);
+
+		return this;
 	}
 }
