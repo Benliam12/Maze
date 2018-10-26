@@ -17,7 +17,7 @@ public class MessageUtils
     {
         this.addMessage("BadCommand", Maze.prefix + ChatColor.RED + "Use " + ChatColor.YELLOW + "/maze help" + ChatColor.RED + " to get all available commands");
         this.addMessage("InvalidID", Maze.prefix + ChatColor.RED + "Invalid ID");
-        this.addMessage("NoPerm", Maze.prefix + ChatColor.RED + "You don't have the permission to perform this action!");
+        this.addMessage("noPerm", Maze.prefix + ChatColor.RED + "You don't have the permission to perform this action!");
     }
 
     /**
@@ -33,7 +33,7 @@ public class MessageUtils
         }
         else
         {
-            return Maze.prefix + ChatColor.RED + "ERROR";
+            return Maze.prefix + ChatColor.RED + "ERROR message (" + message + ") not found!";
         }
     }
 

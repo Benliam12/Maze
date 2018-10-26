@@ -90,8 +90,8 @@ public class CountDown
 		{
 			if(this.time == 0)
 			{
-				this.game.broadcast(Maze.prefix + ChatColor.GREEN + "Game has started !");
-				this.game.start();
+				this.game.broadcast(Maze.prefix + ChatColor.GREEN + "Game has started !")
+						 .start();
 			}
 			else 
 			{

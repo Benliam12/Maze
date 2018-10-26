@@ -1,5 +1,5 @@
 name : Maze
-version : 1.1.2b
+version : 1.1.2c
 main : ca.benliam12.maze.Maze
 author : Benliam12
 depend: [Hub]
@@ -17,7 +17,7 @@ permissions:
       maze.admin.*: true
 
   maze.admin.*:
-    description: Allow user to modify a maze
+    description: Allow user to modify a maze using admin full permissions
     default: false
     children:
       maze.admin.create: true
@@ -34,26 +34,28 @@ permissions:
   maze.admin.edit.*:
     default: false
     children:
-      maze.admin.edit.waitroom: true
-      maze.admin.edit.spawn: true
-      maze.admin.edit.waitroom: true
-      maze.admin.edit.minplayer: true
       maze.admin.edit.maxplayer: true
+      maze.admin.edit.minplayer: true
+      maze.admin.edit.name: true
+      maze.admin.edit.spawn: true
       maze.admin.edit.toggle: true
+      maze.admin.edit.waitroom: true
 
-  maze.admin.edit.waitroom:
+
+
+  maze.admin.edit.minplayer:
+    default: false
+  maze.admin.edit.maxplayer:
     default: false
   maze.admin.edit.name:
     default: false
   maze.admin.edit.spawn:
     default: false
-  maze.admin.edit.minplayer:
-    default: false
-  maze.admin.edit.maxplayer:
-    default: false
   maze.admin.edit.toggle:
     default: false
     description: Toggles game (On/Off)
+  maze.admin.edit.waitroom:
+    default: false
 
 #Default player permissions
   maze.join:

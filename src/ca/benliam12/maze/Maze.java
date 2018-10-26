@@ -86,6 +86,7 @@ public class Maze extends JavaPlugin
 			GameManager.getInstance().setup();
 			SignManager.getInstance().load();
 			MoneyManager.getInstance().setup();
+			MessageUtils.getInstance().setup();
 			getCommand("maze").setExecutor(new Commands());
 			//DataBase.getInstance().connexion("localhost", "servers", "root", "", 3306);
 		}
