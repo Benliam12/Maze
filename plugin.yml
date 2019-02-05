@@ -1,5 +1,5 @@
 name : Maze
-version : 1.1.2c
+version : 1.1.2b
 main : ca.benliam12.maze.Maze
 author : Benliam12
 depend: [Hub]
@@ -7,6 +7,7 @@ softdepend: [Multiverse-Core, Vault]
 commands :
   maze :
    description: Main command
+
 permissions:
   maze.*:
     description: Maze GOD power permissions
@@ -14,14 +15,16 @@ permissions:
     children:
       maze.join: true
       maze.admin.*: true
+
   maze.admin.*:
-    description: Allow user to modify a maze using admin full permissions
+    description: Allow user to modify a maze
     default: false
     children:
       maze.admin.create: true
       maze.admin.delete: true
       maze.admin.edit.*: true
       maze.admin.forcestart: true
+
   maze.admin.create:
     default: false
   maze.admin.delete:
@@ -31,25 +34,26 @@ permissions:
   maze.admin.edit.*:
     default: false
     children:
-      maze.admin.edit.maxplayer: true
-      maze.admin.edit.minplayer: true
-      maze.admin.edit.name: true
-      maze.admin.edit.spawn: true
-      maze.admin.edit.toggle: true
       maze.admin.edit.waitroom: true
-  maze.admin.edit.minplayer:
-    default: false
-  maze.admin.edit.maxplayer:
+      maze.admin.edit.spawn: true
+      maze.admin.edit.waitroom: true
+      maze.admin.edit.minplayer: true
+      maze.admin.edit.maxplayer: true
+      maze.admin.edit.toggle: true
+
+  maze.admin.edit.waitroom:
     default: false
   maze.admin.edit.name:
     default: false
   maze.admin.edit.spawn:
     default: false
+  maze.admin.edit.minplayer:
+    default: false
+  maze.admin.edit.maxplayer:
+    default: false
   maze.admin.edit.toggle:
     default: false
     description: Toggles game (On/Off)
-  maze.admin.edit.waitroom:
-    default: false
 
 #Default player permissions
   maze.join:
