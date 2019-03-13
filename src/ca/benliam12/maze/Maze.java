@@ -82,6 +82,7 @@ public class Maze extends JavaPlugin
 			//Debug On / Off option. For developers purpose only
 			Debugger.getInstance().set(true);
 
+			//Loading up all managers
 			PluginManager pm = Bukkit.getPluginManager();
 			pm.registerEvents(new PlayerListener(), this);
 			SettingManager.getInstance().setup();
@@ -111,6 +112,7 @@ public class Maze extends JavaPlugin
 	{
 		this.Logger(message,1);
 	}
+
 	public void Logger(String message, int importance)
 	{
 		switch (importance)

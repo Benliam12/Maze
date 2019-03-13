@@ -8,17 +8,14 @@ import org.bukkit.entity.Player;
 public class DebugPlayer
 {
     private Player player;
-    private boolean hasDebugAccess = false;
+    private boolean debug= false;
+
 
     public DebugPlayer(Player player)
     {
         this.player = player;
-        if(player.hasPermission("Maze.Debug.access"))
-        {
-            this.hasDebugAccess = true;
-        }
     }
 
-    public boolean hasDebugAccess() { return this.hasDebugAccess;}
+    public boolean isDebugging() { return this.debug;}
     public Player getPlayer(){return this.player;}
 }

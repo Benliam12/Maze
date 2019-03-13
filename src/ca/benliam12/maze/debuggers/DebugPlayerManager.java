@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import ca.benliam12.maze.Maze;
 import ca.benliam12.maze.exception.DebugException;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 /**
@@ -84,6 +85,15 @@ public class DebugPlayerManager
             }
         }
         return false;
+    }
+
+    public void broadcast(String message)
+    {
+        for(DebugPlayer p: this.players)
+        {
+            if(p.isDebugging())
+            p.getPlayer().sendMessage(Maze.prefix + ChatColor.WHITE + message);
+        }
     }
 
 }

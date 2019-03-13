@@ -2,6 +2,8 @@ package ca.benliam12.maze.game;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import ca.benliam12.hub.Hub;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -17,6 +19,11 @@ import ca.benliam12.maze.utils.SettingManager;
 import ca.benliam12.maze.utils.Utils;
 import org.bukkit.inventory.ItemStack;
 
+/**
+ * Main game class designed to work with Maze plugin
+ * @author Benliam12
+ * @version 1.1
+ */
 public class Game 
 {
 	private int id;
@@ -82,7 +89,7 @@ public class Game
 			if(!gameQuitEvent.isCancelled())
 			{
 				this.players.remove(p);
-				Maze.getHub().toHub(p);
+				Hub.toHub(p);
 				p.getInventory().clear();
 				p.getInventory().setContents(this.playerInventory.get(p));
 				p.setGameMode(this.playerGamemode.get(p));

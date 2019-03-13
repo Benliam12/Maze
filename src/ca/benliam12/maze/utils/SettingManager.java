@@ -100,6 +100,12 @@ public class SettingManager
 	 * Configuration interactions
 	 */
 
+	/**
+	 * This methods charge the default configuration file that is included in the plugin.
+	 * BE AWARE : YOU MUST INCLUDE THE CONFIGURATION FILE (config.yml) INTO THE JAR FILE, OTHERWISE IT WON'T WORK!
+	 *
+	 * @param directory Directory of the config final location
+	 */
 	private void loadDefaultConfig(String directory)
 	{
 		if(isFile("config.yml", directory))
