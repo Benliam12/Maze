@@ -40,6 +40,7 @@ permissions:
       maze.admin.edit.minplayer: true
       maze.admin.edit.maxplayer: true
       maze.admin.edit.toggle: true
+      maze.admin.edit.name: true
 
   maze.admin.edit.waitroom:
     default: false

@@ -17,10 +17,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.InventoryPickupItemEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 
 import ca.benliam12.maze.Maze;
@@ -59,8 +56,18 @@ public class PlayerListener implements Listener{
 		{
 			if(game.getState().equalsIgnoreCase("inprocess"))
 			{
-				if(player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == Material.DIAMOND_BLOCK){
+				if(player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == Material.DIAMOND_BLOCK)
+				{
 					game.finishPlayer(player);
+					return;
+				}
+
+				if(player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == Material.GOLD_BLOCK)
+				{
+						// CHECK TP PADS;
+
+						game.tpPad(player.getLocation().getBlock().getRelative(BlockFace.DOWN).getLocation());
+						player.sendMessage(Maze.prefix + ChatColor.RED + "TP PAD IS COMMING");
 				}
 			}
 		}
@@ -120,7 +127,17 @@ public class PlayerListener implements Listener{
 			e.setCancelled(true);
 		}
 	}
-	
+
+	@EventHandler
+	public void onPlayerDrop(PlayerDropItemEvent e)
+	{
+		Game game = GameManager.getInstance().getGame(e.getPlayer());
+		if(game != null)
+		{
+			e.setCancelled(true);
+		}
+	}
+
 	@EventHandler
 	public void Clicksign(PlayerInteractEvent e)
 	{

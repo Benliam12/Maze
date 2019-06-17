@@ -64,7 +64,7 @@ public class SettingManager
 			try
 			{
 				f.delete();
-				Maze.log.info("File : "+ f.getName() + " is now deleted !");
+				plugin.log.info("File : "+ f.getName() + " is now deleted !");
 			}
 			catch (Exception ex)
 			{
@@ -73,7 +73,7 @@ public class SettingManager
 		} 
 		else 
 		{
-			Maze.log.info("Couldn't delete file : " + f.getName() + " (File doesn't exist !)");
+			plugin.log.info("Couldn't delete file : " + f.getName() + " (File doesn't exist !)");
 		}
 	}
 	
@@ -110,7 +110,7 @@ public class SettingManager
 	{
 		if(isFile("config.yml", directory))
 		{
-			plugin.Logger("Skipping copying default configuration file because already there!");
+			plugin.Logger(plugin.loggerPrefix + "Skipping copying default configuration file because already there!");
 			addConfig("config","plugins/Maze");
 			return;
 		}
@@ -272,7 +272,8 @@ public class SettingManager
 	 */
 	public boolean isFile(File file)
 	{
-		return file.exists();
+		return file.isFile();
+		//return file.exists();
 	}
 	
 	/**

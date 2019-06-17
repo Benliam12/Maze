@@ -43,7 +43,7 @@ public class Commands implements CommandExecutor
 					}
 					else
 					{
-						player.sendMessage(mu.getMessage("NoPerm"));
+						player.sendMessage(mu.getMessage("noPerm"));
 					}
 				} 
 				// List game command
@@ -64,7 +64,7 @@ public class Commands implements CommandExecutor
 					}
 					else
 					{
-						player.sendMessage(mu.getMessage("NoPerm"));
+						player.sendMessage(mu.getMessage("noPerm"));
 					}
 
 				}
@@ -95,7 +95,7 @@ public class Commands implements CommandExecutor
 					}
 					else
 					{
-						player.sendMessage(mu.getMessage("NoPerm"));
+						player.sendMessage(mu.getMessage("noPerm"));
 					}
 				} 
 				// Create command
@@ -107,7 +107,7 @@ public class Commands implements CommandExecutor
 					}
 					else
 					{
-						player.sendMessage(mu.getMessage("NoPerm"));
+						player.sendMessage(mu.getMessage("noPerm"));
 					}
 				}
 				// Delete Command
@@ -121,7 +121,7 @@ public class Commands implements CommandExecutor
 						}
 						else
 						{
-							player.sendMessage(mu.getMessage("NoPerm"));
+							player.sendMessage(mu.getMessage("noPerm"));
 						}
 						
 					}
@@ -141,7 +141,7 @@ public class Commands implements CommandExecutor
 						}
 						else
 						{
-							player.sendMessage(mu.getMessage("NoPerm"));
+							player.sendMessage(mu.getMessage("noPerm"));
 						}
 				
 					}
@@ -161,7 +161,7 @@ public class Commands implements CommandExecutor
 						}
 						else
 						{
-							player.sendMessage(mu.getMessage("NoPerm"));
+							player.sendMessage(mu.getMessage("noPerm"));
 						}
 						
 					}
@@ -188,7 +188,7 @@ public class Commands implements CommandExecutor
 						}
 						else
 						{
-							player.sendMessage(mu.getMessage("NoPerm"));
+							player.sendMessage(mu.getMessage("noPerm"));
 						}
 					
 					}

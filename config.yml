@@ -1,5 +1,7 @@
 gameConfig:
   #What block should be at the bottom of the player's feet when they arrive at the end of a maze
   endingBlock: DIAMOND_BLOCK
+  #What block allow you to set up TP Pads
+  tpPadBlock: GOLD_BLOCK
   #0 by default, this setting lets you kick out a player after they've been in a maze for too much time.
   maxTimeToDoMaze: 0

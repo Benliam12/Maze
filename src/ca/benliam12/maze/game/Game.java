@@ -37,6 +37,7 @@ public class Game
 	private boolean isToggled;
 	private FileConfiguration config;
 	private ArrayList<Player> players = new ArrayList<>();
+	private ArrayList<TpPad> tpPads = new ArrayList<>();
 	private SettingManager sm = SettingManager.getInstance();
 	private SignManager signm = SignManager.getInstance();
 	private PlayerUtils playerutils = PlayerUtils.getInstance();
@@ -334,6 +335,11 @@ public class Game
 		}
 
 		return this;
+	}
+
+	public void tpPad(Location location)
+	{
+
 	}
 
 	/**
