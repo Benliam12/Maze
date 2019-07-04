@@ -43,6 +43,8 @@ public class Game
 	private PlayerUtils playerutils = PlayerUtils.getInstance();
 	private HashMap<Player, ItemStack[]> playerInventory = new HashMap<>();
 	private HashMap<Player, GameMode> playerGamemode = new HashMap<>();
+	private HashMap<Player, Float> playerExp = new HashMap<>();
+	private HashMap<Player, Integer> playerLevel = new HashMap<>();
 	//private DataBase dataBase = DataBase.getInstance();
 	private Utils utils = Utils.getInstance();
 	private CountDown countdown;
@@ -71,6 +73,8 @@ public class Game
 				this.players.add(p);
 				this.playerInventory.put(p,p.getInventory().getContents());
 				this.playerGamemode.put(p,p.getGameMode());
+				this.playerExp.put(p,p.getExp());
+				this.playerLevel.put(p, p.getLevel());
 				p.getInventory().clear();
 				p.getInventory().setHeldItemSlot(0);
 				this.playerutils.giveDoor(p);
@@ -94,8 +98,8 @@ public class Game
 				p.getInventory().clear();
 				p.getInventory().setContents(this.playerInventory.get(p));
 				p.setGameMode(this.playerGamemode.get(p));
-				p.setLevel(0);
-				p.setExp((float) 0);
+				p.setLevel(this.playerLevel.get(p));
+				p.setExp(this.playerExp.get(p));
 				p.updateInventory();		
 			}
 		}

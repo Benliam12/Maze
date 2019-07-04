@@ -102,6 +102,7 @@ public class CountDown
 				for(Player player : this.game.getPlayer())
 				{
 					player.setLevel(this.time);
+					player.setExp(0);
 				}
 				
 				this.time--;	

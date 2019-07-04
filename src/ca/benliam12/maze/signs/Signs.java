@@ -185,13 +185,6 @@ public class Signs
 	 */
 	public boolean isLocation(Location loc)
 	{
-	
-		if(this.location.getBlockX() == loc.getBlockX() && this.location.getBlockY() == loc.getBlockY() && this.location.getBlockZ() == loc.getBlockZ())
-		{
-			return true;
-		} else
-		{
-			return false;
-		}
+		return (this.location.getBlockX() == loc.getBlockX() && this.location.getBlockY() == loc.getBlockY() && this.location.getBlockZ() == loc.getBlockZ());
 	}
 }
