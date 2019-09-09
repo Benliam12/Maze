@@ -42,7 +42,10 @@ public class GameManager
 	{
 		
 	}
-	
+
+	/**
+	 * Main method that should be run at the beginning of the program
+	 */
 	public void setup()
 	{
 		this.loadGames();
@@ -51,7 +54,10 @@ public class GameManager
 		this.thread = new Thread(this.cdt);
 		this.thread.start();
 	}
-	
+
+	/**
+	 * Method to run at the end of the program, when it's time to stop playing on the computer =)
+	 */
 	public void stop()
 	{
 		for(Game game : this.games)
@@ -91,6 +97,12 @@ public class GameManager
 	/*
 	 * Player interaction
 	 */
+
+	/**
+	 * Add a player to a game
+	 * @param GameID Target game Id to add player to
+	 * @param p Player Object to add to the list
+	 */
 	public void addPlayer(int GameID, Player p)
 	{
 		if(this.getGame(GameID) != null)
@@ -107,7 +119,11 @@ public class GameManager
 			p.sendMessage(Maze.prefix + ChatColor.RED + "Cannot find game with id : " + GameID);
 		}
 	}
-	
+
+	/**
+	 * Removes player from game
+	 * @param p Player Object to remove
+	 */
 	public void removePlayer(Player p)
 	{
 		if(this.getGame(p) != null)
@@ -121,6 +137,12 @@ public class GameManager
 	}
 	/*
 	 * Game interaction
+	 */
+
+	/**
+	 * Create a game
+	 * @param player Player Creator
+	 * @param spawn Spawn Location of the Maze
 	 */
 	public void createGame(Player player,Location spawn)
 	{
@@ -143,7 +165,12 @@ public class GameManager
 	{
 		
 	}
-	
+
+	/**
+	 * Deletes for ever the game data from the server files
+	 * @param player Player who wants the destruction of the game
+	 * @param ID Id of the Maze to delete
+	 */
 	public void deleteGame(Player player,int ID)
 	{
 		if(sm.getConfig("Arena_" + ID) != null)
@@ -211,7 +238,13 @@ public class GameManager
 	{
 		return this.games;
 	}
-	
+
+	/**
+	 * List all the games that are into the server files.
+	 * It will also give the requester the state of each Maze
+	 *
+	 * @param p Player who requested the list
+	 */
 	public void getGames(Player p)
 	{	
 		if(this.games.size() == 0)
@@ -246,7 +279,12 @@ public class GameManager
 			p.sendMessage("#" + game.getID() + " - " + game.getName() + " " + state);
 		}
 	}
-	
+
+	/**
+	 * Checks if the Game is part of the loaded games
+	 * @param game Game to check
+	 * @return
+	 */
 	public boolean isGame(Game game)
 	{
 		return this.games.contains(game);

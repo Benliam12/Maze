@@ -159,7 +159,7 @@ public class Signs
 	
 	/**
 	 * Get the sign ID
-	 * 
+	 *
 	 * @return Id of the sign
 	 */
 	public int getID()
@@ -169,7 +169,7 @@ public class Signs
 	
 	/**
 	 * Get GameID
-	 * 
+	 *
 	 * @return Game Id of this sign
 	 */
 	public int getGameID()
@@ -179,7 +179,7 @@ public class Signs
 	
 	/**
 	 * Checking if ths sign is a this location
-	 * 
+	 *
 	 * @param loc Location to compare
 	 * @return True / False
 	 */

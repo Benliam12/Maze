@@ -10,8 +10,8 @@ import org.bukkit.entity.Player;
 public class TpPad
 {
     private Location location;
+    private Location targetLocation;
     private int id;
-    private int linkedTpPad;
     private int gameId;
 
     public void setLocation(Location loc)
@@ -31,7 +31,7 @@ public class TpPad
 
     public void tpPlayer(Player player)
     {
-        player.teleport(this.location);
+        player.teleport(this.targetLocation);
     }
 
     public Game getGame()
@@ -42,5 +42,4 @@ public class TpPad
 
         return game;
     }
-
 }

@@ -328,6 +328,9 @@ public class Game
 		return this;
 	}
 
+	/**
+	 * Put players that are int he game into the correct Game mode.
+	 */
 	public Game checkGameMode()
 	{
 		for(Player player : this.players)
