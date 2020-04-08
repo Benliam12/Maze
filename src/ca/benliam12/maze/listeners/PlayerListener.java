@@ -112,7 +112,7 @@ public class PlayerListener implements Listener{
 		{
 			e.setCancelled(true);
 		}
-		if(e.getBlock().getType() == Material.SIGN || e.getBlock().getType() == Material.WALL_SIGN)
+		if(e.getBlock().getType() == Material.OAK_SIGN || e.getBlock().getType() == Material.OAK_WALL_SIGN)
 		{
 			SignManager.getInstance().updateSigns();
 		}
@@ -143,30 +143,38 @@ public class PlayerListener implements Listener{
 	{
 		SignManager signm = SignManager.getInstance();
 		Player player = e.getPlayer();
-
 		if(e.getAction() == Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.RIGHT_CLICK_AIR)
 		{
-			ItemStack itemStack = player.getItemInHand();
+			ItemStack itemStack = player.getInventory().getItemInMainHand();
 			if(itemStack.hasItemMeta())
 			{
+				if(itemStack.getItemMeta() == null)
+				{
+					return;
+				}
 				if(itemStack.getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.BLACK + "Exit") && itemStack.getType() == Material.BARRIER)
 				{
 					if(GameManager.getInstance().getGame(player) != null)
 					{
 						GameManager.getInstance().removePlayer(player);
+						e.setCancelled(true);
 						return;
 					}
 				}
 			}
 
-			Block block = e.getClickedBlock();
+			Block block = null;
+
+			if(e.getAction() != Action.RIGHT_CLICK_AIR) block = e.getClickedBlock();
+
 			
 			if(block == null) return;
 			
-			if(block.getType() == Material.SIGN || block.getType() == Material.WALL_SIGN)
+			if(block.getType() == Material.OAK_SIGN || block.getType() == Material.OAK_WALL_SIGN)
 			{
 				if(signm.getSign(block.getLocation()) != null)
 				{
+					e.setCancelled(true);
 					signm.getSign(block.getLocation()).joinGame(player);
 					signm.updateSign(block.getLocation());
 				}

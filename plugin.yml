@@ -1,9 +1,10 @@
 name : Maze
-version : 1.1.2b
+version : 1.1.3b
 main : ca.benliam12.maze.Maze
 author : Benliam12
 depend: [Hub]
 softdepend: [Multiverse-Core, Vault]
+api-version: 1.13
 commands :
   maze :
    description: Main command
@@ -36,7 +37,6 @@ permissions:
     children:
       maze.admin.edit.waitroom: true
       maze.admin.edit.spawn: true
-      maze.admin.edit.waitroom: true
       maze.admin.edit.minplayer: true
       maze.admin.edit.maxplayer: true
       maze.admin.edit.toggle: true

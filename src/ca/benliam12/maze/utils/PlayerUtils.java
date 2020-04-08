@@ -27,8 +27,13 @@ public class PlayerUtils
 	{
 		ItemStack door = new ItemStack(Material.BARRIER);
 		ItemMeta im = door.getItemMeta();
-		im.setDisplayName(ChatColor.BLACK +"Exit");
-		door.setItemMeta(im);
+
+		if(im != null)
+		{
+			im.setDisplayName(ChatColor.BLACK +"Exit");
+			door.setItemMeta(im);
+		}
+
 		return door;
 	}
 	

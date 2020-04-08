@@ -71,8 +71,9 @@ public class Game
 			if(!gameJoinEvent.isCancelled())
 			{
 				this.players.add(p);
-				this.playerInventory.put(p,p.getInventory().getContents());
 				this.playerGamemode.put(p,p.getGameMode());
+				p.setGameMode(GameMode.ADVENTURE);
+				this.playerInventory.put(p,p.getInventory().getContents());
 				this.playerExp.put(p,p.getExp());
 				this.playerLevel.put(p, p.getLevel());
 				p.getInventory().clear();
@@ -80,7 +81,6 @@ public class Game
 				this.playerutils.giveDoor(p);
 				p.updateInventory();
 				p.teleport(this.waitroom);
-				p.setGameMode(GameMode.ADVENTURE);
 			}
 		}
 	}
@@ -97,13 +97,15 @@ public class Game
 				Hub.toHub(p);
 				p.getInventory().clear();
 				p.getInventory().setContents(this.playerInventory.get(p));
-				p.setGameMode(this.playerGamemode.get(p));
 				p.setLevel(this.playerLevel.get(p));
 				p.setExp(this.playerExp.get(p));
-				p.updateInventory();		
+				p.setGameMode(this.playerGamemode.get(p));
+				p.updateInventory();
+
+				p.setGameMode(this.playerGamemode.get(p));
 			}
 		}
-		
+
 		if(this.getState().equalsIgnoreCase("inprocess"))
 		{
 			if(this.players.size() == 0)
