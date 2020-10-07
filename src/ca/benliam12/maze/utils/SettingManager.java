@@ -19,6 +19,8 @@ import ca.benliam12.maze.Maze;
  * Configuration file class<
  * @author Benliam12
  * @version unknown
+ *
+ * Last modified Oct 6 2020
  */
 public class SettingManager 
 {

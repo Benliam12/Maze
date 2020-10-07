@@ -144,7 +144,7 @@ public class GameManager
 	 * @param player Player Creator
 	 * @param spawn Spawn Location of the Maze
 	 */
-	public void createGame(Player player,Location spawn)
+	public int createGame(Player player,Location spawn)
 	{
 		int id = this.nextInt();
 		sm.createFile("Arena_" + id + ".yml", "plugins/Maze/arenas");
@@ -159,11 +159,21 @@ public class GameManager
 		this.addGame(game);
 		signm.updateSign(id);
 		player.sendMessage(Maze.prefix + ChatColor.GREEN + "Game created ! (Id : " + id + ")");
+
+		return id;
 	}
-	
+
+	/**
+	 * Create a Maze game with a custom name
+	 *
+	 * @see #createGame(Player, Location)
+	 *
+	 * @param name Name of mase
+	 */
 	public void createGame(Player player,Location spawn, String name)
 	{
-		
+		int gameID = this.createGame(player, spawn);
+		this.getGame(gameID).setName(name);
 	}
 
 	/**

@@ -6,5 +6,6 @@
 |There is many features available.|
 |The plugins is really simple to use.|
 |A link to the documentation should be available soon.|
+|Feel free to contribute to the project!|
 
 >Benliam12, the creator. :smile:
