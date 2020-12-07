@@ -97,7 +97,14 @@ public class CountDown
 			{
 				if(this.wait.contains(this.time))
 				{
-					this.game.broadcast(Maze.prefix + ChatColor.GREEN + "Game start in : " + this.time + " seconds");
+					if(this.time == 1)
+					{
+						this.game.broadcast(Maze.prefix + ChatColor.GREEN + "Game start in: " + this.time + " second");
+					}
+					else
+					{
+						this.game.broadcast(Maze.prefix + ChatColor.GREEN + "Game start in: " + this.time + " seconds");
+					}
 				}
 				for(Player player : this.game.getPlayer())
 				{

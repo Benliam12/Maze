@@ -358,7 +358,7 @@ public class Game
 	 */
 	public Game finishPlayer(Player p)
 	{
-		p.sendMessage(Maze.prefix + ChatColor.GREEN + "You finish the maze in : "+ this.getElapseTime(System.currentTimeMillis()) + " seconds");
+		p.sendMessage(Maze.prefix + ChatColor.GREEN + "You finish the maze in: "+ this.getElapseTime(System.currentTimeMillis()) + " seconds");
 		this.removePlayer(p);
 		this.broadcast(Maze.prefix + ChatColor.GREEN + p.getName() + " has finish the maze in : "+ this.getElapseTime(System.currentTimeMillis()) + " seconds");
 
