@@ -12,12 +12,13 @@ public class TpPad
     private Location location;
     private Location targetLocation;
     private int id;
-    private int gameId;
+    private Game game;
 
     public void setLocation(Location loc)
     {
         this.location = loc;
     }
+
 
     public void setId(int id)
     {
@@ -29,17 +30,23 @@ public class TpPad
         return this.id;
     }
 
+    public Game getGame(){return this.game;}
+
+    public Location getLocation()
+    {
+        return this.location;
+    }
+
     public void tpPlayer(Player player)
     {
         player.teleport(this.targetLocation);
     }
 
-    public Game getGame()
+    public TpPad(int id, Game game, Location location, Location targetLocation)
     {
-        Game game = GameManager.getInstance().getGame(this.gameId);
-        if(game == null)
-            Maze.getMaze().Logger(Maze.loggerPrefix + "Tp pad Game ID can't be found", 3);
-
-        return game;
+        this.id = id;
+        this.game = game;
+        this.location = location;
+        this.targetLocation = targetLocation;
     }
 }

@@ -61,13 +61,13 @@ public class PlayerListener implements Listener{
 					game.finishPlayer(player);
 					return;
 				}
-
-				if(player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == Material.GOLD_BLOCK)
+				else if(player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == Material.GOLD_BLOCK)
 				{
-						// CHECK TP PADS;
+					// CHECK TP PADS;
+					// Gold blocks tp to somewhere.
 
-						game.tpPad(player.getLocation().getBlock().getRelative(BlockFace.DOWN).getLocation());
-						player.sendMessage(Maze.prefix + ChatColor.RED + "TP PAD IS COMMING");
+					game.tpPad(player.getLocation().getBlock().getRelative(BlockFace.DOWN).getLocation(), player);
+					player.sendMessage(Maze.prefix + ChatColor.RED + "TP PAD IS COMMING");
 				}
 			}
 		}

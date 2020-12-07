@@ -14,7 +14,23 @@ public class Utils
 	{
 		return instance;
 	}
-	
+
+	/**
+	 * Compares 2 locations
+	 * @param loc1 Location 1
+	 * @param loc2 Location 2
+	 * @return if they are the same
+	 */
+	public boolean isSameLocation(Location loc1, Location loc2)
+	{
+		return (loc1.getX() == loc2.getX() &&
+				loc1.getY() == loc2.getY() &&
+				loc1.getZ() == loc2.getZ() &&
+				loc1.getYaw() == loc2.getYaw() &&
+				loc1.getPitch() == loc2.getPitch()
+				);
+	}
+
 	/**
 	 * Get a location from a config file
 	 * 

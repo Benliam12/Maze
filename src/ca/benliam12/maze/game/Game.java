@@ -188,6 +188,11 @@ public class Game
 			this.isToggled = false;
 		}
 
+		if(this.config.get("tppads") != null)
+		{
+			//TODO: Load tp pads
+		}
+
 		return this;
 	}
 	
@@ -346,9 +351,20 @@ public class Game
 		return this;
 	}
 
-	public void tpPad(Location location)
+	/**
+	 * Handles tp pads
+	 * @param location Location of triggered tp pad
+	 * @param player Player to teleport
+	 */
+	public void tpPad(Location location, Player player)
 	{
-
+		for(TpPad pad : this.tpPads)
+		{
+			if(utils.isSameLocation(location, pad.getLocation()))
+			{
+				pad.tpPlayer(player);
+			}
+		}
 	}
 
 	/**
