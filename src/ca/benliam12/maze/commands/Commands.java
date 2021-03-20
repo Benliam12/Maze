@@ -24,8 +24,8 @@ public class Commands implements CommandExecutor
 		}
 		
 		Player player = (Player) sender;
-		
-		if(label.equalsIgnoreCase("maze"))
+
+		if(label.equalsIgnoreCase("maze")) // Should be able to remove this line as it is linked by CommandExecutor from Main function
 		{
 			if(args.length == 1)
 			{
@@ -61,6 +61,10 @@ public class Commands implements CommandExecutor
 							gm.getGame(player).broadcast(Maze.prefix + ChatColor.GREEN + "Game has started !");
 							gm.getGame(player).start();
 						}
+						else
+						{
+							player.sendMessage(Maze.prefix + ChatColor.RED + "You must be in game to start the game");
+						}
 					}
 					else
 					{
@@ -70,6 +74,7 @@ public class Commands implements CommandExecutor
 				}
 				else if (args[0].equalsIgnoreCase("help"))
 				{
+					//TODO: Make an acutal help section
 					player.sendMessage(Maze.prefix + ChatColor.RED + "Help section still on Development!");
 				}
 				else 
@@ -163,7 +168,6 @@ public class Commands implements CommandExecutor
 						{
 							player.sendMessage(mu.getMessage("noPerm"));
 						}
-						
 					}
 					catch(Exception ex)
 					{
@@ -277,6 +281,7 @@ public class Commands implements CommandExecutor
 								int GameID = Integer.parseInt(args[2]);
 								this.gm.addPlayer(GameID,target);
 								player.sendMessage(Maze.prefix + ChatColor.GREEN + "Player : " + target.getName() + " was forced to join the game");
+								target.sendMessage(Maze.prefix + ChatColor.GREEN + "You were forced to join a maze game.");
 							}
 							catch(Exception ex)
 							{
@@ -292,7 +297,6 @@ public class Commands implements CommandExecutor
 					{
 						player.sendMessage(mu.getMessage("noPerm"));
 					}
-
 				}
 			}
 			else
