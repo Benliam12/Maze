@@ -1,11 +1,18 @@
 # Maze
 
-| Description |
-| -----------|
-|The maze plugin is a plugin made to ensure you can have pleasure playing the cube game.|
-|There is many features available.|
-|The plugins is really simple to use.|
-|A link to the documentation should be available soon.|
-|Feel free to contribute to the project!|
+This plugin emulate a parkour game where you have a starting position and an end position.
+The players are put in the same area all in once and are timed on their performances.
 
->Benliam12, the creator. :smile:
+Here's a road map of the future feature that are yet to be implemented.
+
+- [x] Waitrooms (Area where players wait before the race to complete a parkour ends)
+- [x] Possibility to join the game via command and or signs
+- [ ] Warp pads blocks in the maze.  
+- [ ] Adding economy feature to reward players performance
+- [ ] Maze generator. (Make it possible to generate custom mazes)
+- [ ] Changing maze. (Make a maze change its layout in each unique round, so players would have to find a new path each time)
+
+## Contribution
+I don't have much organisation when it comes to contribution. Just put and issue in the [Github issues](https://github.com/Benliam12/Maze/issues)
+section and make a pull request onto it. I'll do my best to review your code as soon as I can. Please make
+multiple pull request if you wish to implement multiple features as this will be easier on my end to review your work.

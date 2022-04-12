@@ -30,6 +30,7 @@ public class Maze extends JavaPlugin
 	public Logger logger = log;
 	private static Maze maze;
 
+	//First phase of implementing economy features.
 	private boolean setupEconomy()
 	{
 		Economy economy = null;
@@ -107,13 +108,19 @@ public class Maze extends JavaPlugin
 		SettingManager.getInstance().clear();
 	}
 
+	/**
+	 * Logs messages in console
+	 * @param message
+	 */
 	public void Logger(String message)
 	{
 		this.Logger(message,1);
 	}
 
+
 	public void Logger(String message, int importance)
 	{
+		//Displays different level of importance in console.
 		switch (importance)
 		{
 			case 1: log.info(loggerPrefix + message); break;

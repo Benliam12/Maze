@@ -18,10 +18,7 @@ public class PlayerUtils
 		return instance;
 	}
 	
-	public PlayerUtils()
-	{
-		
-	}
+	public PlayerUtils() {}
 	
 	private ItemStack getDoor()
 	{
@@ -36,11 +33,13 @@ public class PlayerUtils
 
 		return door;
 	}
-	
+
+	/**
+	 * Gives player the exit item in his last slot. This items gives him the possibility to leave the maze.
+	 * @param p
+	 */
 	public void giveDoor(Player p)
 	{
 		p.getInventory().setItem(8, this.getDoor());
 	}
-	
-	//TODO : Give the exit door
 }
